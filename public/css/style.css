@@ -1,0 +1,35 @@
+body {
+  background: linear-gradient(45deg, rgb(14, 210, 230) 30%, rgb(214, 1, 40) 60%, rgb(214, 1, 50) 10%, rgb(255, 100, 240));
+  background-size: 10px;
+  padding: 0;
+  overflow: hidden;
+}
+
+@keyframes move {
+  from {
+    background-position: 300px;
+    background-size: 4px;
+    transform: rotate(0deg);
+    opacity: 0.3;
+  }
+  to {
+    background-position: 500px;
+    background-size: 100%;
+    transform: rotate(360deg);
+    opacity: 1.0;
+  }
+}
+
+#wrapper {
+  background: linear-gradient(-35deg, rgba(14, 210, 230, 0.8) 20%, rgba(214, 1, 40, 0.5) 60%, rgba(214, 1, 50, 0.9) 10%, rgba(255, 100, 240, 0.95));
+  background-position: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  animation-name: move;
+  animation-duration: 10s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate-reverse;
+}
