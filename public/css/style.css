@@ -1,35 +1,73 @@
 body {
-  background: linear-gradient(45deg, rgb(14, 210, 230) 30%, rgb(214, 1, 40) 60%, rgb(214, 1, 50) 10%, rgb(255, 100, 240));
-  background-size: 10px;
+  background: linear-gradient(
+    -145deg,
+    rgb(214, 130, 30) 30%,
+    rgb(214, 1, 140) 80%,
+    rgb(214, 1, 250) 10%);
+  background-size: 20vw;
+  position: relative;
   padding: 0;
+  margin: 0;
   overflow: hidden;
+}
+
+body.on {
+  background: linear-gradient(
+    -145deg,
+    rgb(214, 130, 30) 30%,
+    rgb(255, 8, 105) 30%,
+    rgb(214, 1, 250) 10%);
+  background-size: 40vw;
+}
+
+#wrapper {
+  background: repeating-linear-gradient(
+    -145deg,
+    rgb(214, 130, 30) 30%,
+    rgb(234, 10, 40) 80%,
+    rgb(244, 1, 250) 10%);
+  position: absolute;
+  width: 90vw;
+  height: 90vw;
+  border-radius: 100%;
+  animation-name: move;
+  animation-duration: 40s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate-reverse;
+  z-index: 1;
 }
 
 @keyframes move {
   from {
-    background-position: 300px;
-    background-size: 4px;
+    background-size: 10vw;
     transform: rotate(0deg);
-    opacity: 0.3;
+    opacity: 0.75;
+    top: 0;
+    left: -100vw;
   }
   to {
-    background-position: 500px;
-    background-size: 100%;
+    background-size: 40vw;
     transform: rotate(360deg);
-    opacity: 1.0;
+    opacity: 0.02;
+    top: -10vh;
+    left: 0;
   }
 }
 
-#wrapper {
-  background: linear-gradient(-35deg, rgba(14, 210, 230, 0.8) 20%, rgba(214, 1, 40, 0.5) 60%, rgba(214, 1, 50, 0.9) 10%, rgba(255, 100, 240, 0.95));
-  background-position: 0;
+audio {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  animation-name: move;
-  animation-duration: 10s;
-  animation-iteration-count: infinite;
-  animation-direction: alternate-reverse;
+  left: -999px;
+  top: -999px;
 }
+
+#info {
+  position: fixed;
+  z-index: 2;
+  right: 10px;
+  top: 10px;
+  padding: 10px;
+  color: rgba(10, 160, 200, 0.8);
+  text-shadow: #fff 0 0 2px;
+  font-family: monospace;
+}
+

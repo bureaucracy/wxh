@@ -8,8 +8,6 @@ const helmet = require('helmet')
 
 const cards = require('./src/cards')
 
-const PASSWORD = '#twisty*turny'
-
 const app = express()
 app.use(helmet())
 app.use(express.static(path.join(__dirname, '/public')))
@@ -37,9 +35,6 @@ wss.on('connection', (ws) => {
 
     switch (data.type) {
       case 'card.add':
-        if (data.password !== PASSWORD) {
-          return
-        }
         cards.add(data, (err, result) => {
           if (err) {
             console.log(err)
