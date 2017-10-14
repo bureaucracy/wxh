@@ -12,6 +12,8 @@
   var percentage = 0.0
   var percentage2 = 0.0
   var currentFreq = 380000000000000
+  var currentBlue = 0.0
+  var currentGreen = 0.0
   var colorNM
   var backgroundOn = false
 
@@ -32,24 +34,24 @@
     // https://academo.org/demos/wavelength-to-colour-relationship/
     if (colorNM >= 380 && colorNM < 440) {
       r = -(colorNM - 440) / (440 - 380)
-      g = 0.0
-      b = 1.0
+      g = currentGreen
+      b = currentBlue
     } else if (colorNM >= 440 && colorNM < 490) {
       r = 0.0
       g = (colorNM - 440) / (490 - 440)
-      b = 1.0
+      b = currentGreen
     } else if (colorNM >= 490 && colorNM < 510) {
       r = 0.0
-      g = 1.0
+      g = currentBlue
       b = -(colorNM - 510) / (510 - 490)
     } else if (colorNM >= 510 && colorNM < 580) {
       r = (colorNM - 510) / (580 - 510)
       g = 1.0
-      b = 0.0
+      b = currentBlue
     } else if (colorNM >= 580 && colorNM < 645) {
-      r = 1.0
+      r = currentGreen
       g = -(colorNM - 645) / (645 - 580)
-      b = 0.0
+      b = currentBlue
     } else if (colorNM >= 645 && colorNM < 771) {
       r = 1.0
       g = 0.0
@@ -84,10 +86,8 @@
     oscillator.type = 'sawtooth'
     oscillator.frequency.value = 410 - (colorNM - 380) // value in hertz
     oscillator.connect(gainNode)
-    console.log(oscillator.frequency.value, colorNM)
+    // console.log(oscillator.frequency.value, colorNM)
     oscillator.start()
-
-
 
     var oscillator3 = audioCtx.createOscillator()
 
@@ -286,9 +286,31 @@
       if (currentFreq < lowestFreqHZ) {
         currentFreq = lowestFreqHZ
       }
+    } else if (e.which === 37) {
+      // left
+      currentBlue += 0.01
+      currentGreen += 0.001
+      if (currentBlue > 0.9) {
+        currentBlue = 1.0
+      }
+      if (currentGreen > 0.9) {
+        currentGreen = 1.0
+      }
+      go()
+    } else if (e.which === 39) {
+      // right
+      currentBlue -= 0.01
+      currentGreen -= 0.001
+      if (currentBlue < 0) {
+        currentBlue = 0
+      }
+      if (currentGreen < 0) {
+        currentGreen = 0.0
+      }
+      go2()
     }
 
-    info.textContent = currentFreq + ' hz'
+    info.textContent = currentFreq +  ', ' + currentBlue +' hz'
   }
 
   window.requestAnimationFrame(generateGradient)
