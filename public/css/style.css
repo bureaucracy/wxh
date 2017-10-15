@@ -1,23 +1,104 @@
 body {
-  background: linear-gradient(
-    -145deg,
-    rgb(214, 130, 30) 30%,
-    rgb(214, 1, 140) 80%,
-    rgb(214, 1, 250) 10%);
-  background-size: 20vw;
   position: relative;
   padding: 0;
   margin: 0;
   overflow: hidden;
 }
 
-body.on {
+.face {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  z-index: 1;
+  opacity: 0.8;
+  transition: 2s opacity;
+}
+
+#face1 {
+  background: linear-gradient(
+    -145deg,
+    rgb(214, 130, 30) 30%,
+    rgb(214, 1, 140) 80%,
+    rgb(214, 1, 250) 10%);
+  background-size: 20vw;
+}
+
+.off {
+  display: none;
+  opacity: 0.0;
+  transition: 2s opacity;
+}
+
+#face1.on {
   background: linear-gradient(
     -145deg,
     rgb(214, 130, 30) 30%,
     rgb(255, 8, 105) 30%,
     rgb(214, 1, 250) 10%);
   background-size: 40vw;
+}
+
+#face2 {
+  background: linear-gradient(
+    -45deg,
+    rgb(14, 130, 130) 30%,
+    rgb(64, 111, 240) 80%,
+    rgb(114, 180, 250) 10%);
+  background-size: 40vw;
+}
+
+#face2.on {
+  background: linear-gradient(
+    -45deg,
+    rgb(214, 130, 30) 30%,
+    rgb(55, 118, 205) 30%,
+    rgb(110, 180, 230) 10%);
+  background-size: 60vw;
+}
+
+#face3 {
+  background: linear-gradient(
+    -35deg,
+    rgb(114, 130, 230) 10%,
+    rgb(14, 1, 140) 50%,
+    rgb(214, 1, 250));
+  background-size: 5vw;
+}
+
+#face3.on {
+  background: linear-gradient(
+    15deg,
+    rgb(114, 130, 30) 10%,
+    rgb(14, 8, 105) 50%,
+    rgb(214, 1, 250));
+  background-size: 20vw;
+}
+
+#face4 {
+  background: linear-gradient(
+    145deg,
+    rgb(214, 30, 30) 30%,
+    rgb(214, 1, 140) 80%,
+    rgb(214, 1, 250) 10%);
+  background-size: 30vw;
+}
+
+#face4.on {
+  background: linear-gradient(
+    45deg,
+    rgb(214, 30, 30) 30%,
+    rgb(155, 18, 105) 30%,
+    rgb(214, 1, 250) 10%);
+  background-size: 10vw;
+}
+
+canvas {
+  z-index: 2;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 
 #wrapper {
@@ -31,9 +112,17 @@ body.on {
   height: 90vw;
   border-radius: 100%;
   animation-name: move;
-  animation-duration: 40s;
+  animation-duration: 30s;
   animation-iteration-count: infinite;
-  z-index: 1;
+  animation-direction: alternate;
+  z-index: 3;
+  border: 10px solid transparent;
+  top: 0;
+}
+
+#wrapper:hover {
+  border: 10px solid #fff;
+  box-shadow: 10px #fff 0 0 10px;
 }
 
 @keyframes move {
@@ -41,15 +130,13 @@ body.on {
     background-size: 10vw;
     transform: rotate(0deg);
     opacity: 0.75;
-    top: 0;
-    left: -300px;
+    left: 0;
   }
   to {
     background-size: 40vw;
     transform: rotate(360deg);
-    opacity: 0.02;
-    top: -300px;
-    left: 0;
+    opacity: 0.1;
+    left: 100vw;
   }
 }
 
@@ -68,5 +155,6 @@ audio {
   color: rgba(10, 160, 200, 0.8);
   text-shadow: #fff 0 0 2px;
   font-family: monospace;
+  white-space: nowrap;
 }
 
