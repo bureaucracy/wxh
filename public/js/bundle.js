@@ -90,7 +90,7 @@ function up () {
   }
 
   generateAudio({
-    gain: 0.1,
+    gain: 0.05,
     delay: 0.5,
     osc1: ['sawtooth', 410, 380],
     osc2: ['sine', 410, 460],
@@ -106,7 +106,7 @@ function down () {
   }
 
   generateAudio({
-    gain: 0.1,
+    gain: 0.05,
     delay: 0.15,
     osc1: ['sawtooth', 430, 360],
     osc2: ['triangle', 400, 390],
@@ -135,7 +135,7 @@ function left () {
   }
 
   generateAudio({
-    gain: 0.1,
+    gain: 0.05,
     delay: 0.35,
     osc1: ['sawtooth', 400, 410],
     osc2: ['sine', 430, 400],
@@ -164,7 +164,7 @@ function right () {
   }
 
   generateAudio({
-    gain: 0.1,
+    gain: 0.05,
     delay: 0.75,
     osc1: ['sawtooth', 420, 390],
     osc2: ['sine', 410, 350],
@@ -253,6 +253,7 @@ var backgroundOn = false
 
 var info = document.querySelector('#info')
 var currentFace = document.querySelector('#face2')
+var wrapper = document.querySelector('#wrapper')
 
 function calculate () {
   var wavelength = utils.currentFreq
@@ -261,19 +262,25 @@ function calculate () {
   var faces = document.querySelectorAll('.face')
   for (var i = 0; i < faces.length; i++) {
     faces[i].classList.add('off')
+    wrapper.classList.remove('face' + (i + 1))
   }
+
   if (utils.currentHorizontal >= 0.75) {
     currentFace = document.querySelector('#face4')
     currentFace.classList.remove('off')
+    wrapper.classList.add('face4')
   } else if (utils.currentHorizontal >= 0.5 && utils.currentHorizontal < 0.75) {
     currentFace = document.querySelector('#face3')
+    wrapper.classList.add('face3')
     currentFace.classList.remove('off')
   } else if (utils.currentHorizontal >= 0.25 && utils.currentHorizontal < 0.5) {
     currentFace = document.querySelector('#face2')
     currentFace.classList.remove('off')
+    wrapper.classList.add('face2')
   } else {
     currentFace = document.querySelector('#face1')
     currentFace.classList.remove('off')
+    wrapper.className = ''
   }
 
   // divide wave's speed by freq measured in hertz
@@ -321,7 +328,8 @@ function calculate () {
     lastRGB = 'rgba(' + r + ',' + g + ',' + b + ', 0.8)'
   }
 
-  info.textContent = utils.currentFreq + ', ' + utils.currentHorizontal + ' hz'
+  info.querySelector('#freq').textContent = utils.currentFreq
+  info.querySelector('#mid').textContent = utils.currentHorizontal
 }
 
 function generateGradient () {
@@ -371,6 +379,7 @@ function switchBackground () {
 function resize () {
   canvas.width = window.innerWidth
   canvas.height = window.innerHeight
+  ctx.clearRect(0, 0, canvas.width, canvas.height)
 }
 
 module.exports = {

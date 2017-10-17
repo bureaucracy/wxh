@@ -48,7 +48,7 @@ function up () {
   }
 
   generateAudio({
-    gain: 0.1,
+    gain: 0.05,
     delay: 0.5,
     osc1: ['sawtooth', 410, 380],
     osc2: ['sine', 410, 460],
@@ -64,7 +64,7 @@ function down () {
   }
 
   generateAudio({
-    gain: 0.1,
+    gain: 0.05,
     delay: 0.15,
     osc1: ['sawtooth', 430, 360],
     osc2: ['triangle', 400, 390],
@@ -93,7 +93,7 @@ function left () {
   }
 
   generateAudio({
-    gain: 0.1,
+    gain: 0.05,
     delay: 0.35,
     osc1: ['sawtooth', 400, 410],
     osc2: ['sine', 430, 400],
@@ -122,7 +122,7 @@ function right () {
   }
 
   generateAudio({
-    gain: 0.1,
+    gain: 0.05,
     delay: 0.75,
     osc1: ['sawtooth', 420, 390],
     osc2: ['sine', 410, 350],

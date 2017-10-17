@@ -120,6 +120,31 @@ canvas {
   top: 0;
 }
 
+#wrapper.face2 {
+  background: linear-gradient(
+    85deg,
+    rgb(250, 3, 30) 30%,
+    rgb(248, 8, 240) 50%,
+    rgb(244, 68, 250) 20%);
+}
+
+#wrapper.face3 {
+  background: repeating-linear-gradient(
+    -110deg,
+    rgb(4, 220, 170) 10%,
+    rgb(2, 250, 240) 30%,
+    rgb(2, 238, 250) 60%);
+}
+
+#wrapper.face4 {
+  background: repeating-linear-gradient(
+    -15deg,
+    rgb(214, 10, 190) 30%,
+    rgb(234, 10, 140) 50%,
+    rgb(244, 68, 150) 10%);
+}
+}
+
 #wrapper:hover {
   border: 10px solid #fff;
   box-shadow: 10px #fff 0 0 10px;
@@ -148,13 +173,24 @@ audio {
 
 #info {
   position: fixed;
-  z-index: 2;
-  right: 10px;
-  top: 10px;
-  padding: 10px;
-  color: rgba(10, 160, 200, 0.8);
-  text-shadow: #fff 0 0 2px;
+  z-index: 3;
+  left: 10px;
+  bottom: 10px;
+  padding: 10px 20px;
+  font-size: 1.3rem;
+  color: rgba(110, 160, 200, 0.9);
+  text-shadow: rgba(255, 255, 255, 0.7) 0 0 2px;
   font-family: monospace;
   white-space: nowrap;
+  line-height: 1.4rem;
+  background-color: rgba(1, 1, 1, 0.15);
 }
 
+#info span {
+  color: rgba(235, 10, 80, 0.8);
+}
+
+#info h3 {
+  font-size: 1.1rem;
+  margin: 5px 2px;
+}
