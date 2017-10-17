@@ -48,12 +48,12 @@ function up () {
   }
 
   generateAudio({
-    gain: 0.05,
+    gain: 0.01,
     delay: 0.5,
     osc1: ['sawtooth', 410, 380],
     osc2: ['sine', 410, 460],
     osc3: ['sine', 480, 320],
-    timeout: 700
+    timeout: 1700
   })
 }
 
@@ -64,12 +64,12 @@ function down () {
   }
 
   generateAudio({
-    gain: 0.05,
+    gain: 0.01,
     delay: 0.15,
     osc1: ['sawtooth', 430, 360],
     osc2: ['triangle', 400, 390],
     osc3: ['sine', 480, 320],
-    timeout: 800
+    timeout: 1800
   })
 }
 
@@ -93,12 +93,12 @@ function left () {
   }
 
   generateAudio({
-    gain: 0.05,
+    gain: 0.01,
     delay: 0.35,
     osc1: ['sawtooth', 400, 410],
     osc2: ['sine', 430, 400],
     osc3: ['triangle', 440, 400],
-    timeout: 800
+    timeout: 1800
   })
 }
 
@@ -122,12 +122,12 @@ function right () {
   }
 
   generateAudio({
-    gain: 0.05,
+    gain: 0.01,
     delay: 0.75,
     osc1: ['sawtooth', 420, 390],
     osc2: ['sine', 410, 350],
     osc3: ['sawtooth', 400, 390],
-    timeout: 700
+    timeout: 1700
   })
 }
 
@@ -136,24 +136,28 @@ function play () {
   var oscillator = audioCtx.createOscillator()
   var gainNode = audioCtx.createGain()
   gainNode.connect(audioCtx.destination)
-  gainNode.gain.value = 0.3
+  gainNode.gain.value = 0.2
+  var delayNode = audioCtx.createDelay()
+  delayNode.delayTime.value = 0.5
+  delayNode.connect(gainNode)
+  gainNode.connect(audioCtx.destination)
 
   oscillator.type = 'sine'
-  oscillator.frequency.value = 120 // value in hertz
+  oscillator.frequency.value = 70 // value in hertz
   oscillator.connect(gainNode)
   oscillator.start()
 
   var oscillator2 = audioCtx.createOscillator()
 
   oscillator2.type = 'triangle'
-  oscillator2.frequency.value = 100 // value in hertz
+  oscillator2.frequency.value = 80 // value in hertz
   oscillator2.connect(gainNode)
   oscillator2.start()
 
   var oscillator3 = audioCtx.createOscillator()
 
   oscillator3.type = 'sine'
-  oscillator3.frequency.value = 110 // value in hertz
+  oscillator3.frequency.value = 90 // value in hertz
   oscillator3.connect(gainNode)
   oscillator3.start()
 
@@ -161,7 +165,7 @@ function play () {
     oscillator.stop()
     oscillator2.stop()
     oscillator3.stop()
-  }, 120)
+  }, 140)
 }
 
 module.exports = {
