@@ -7,6 +7,7 @@ const express = require('express')
 const helmet = require('helmet')
 
 const cards = require('./src/cards')
+const math = require('./src/math')
 
 const app = express()
 app.use(helmet())
@@ -34,6 +35,12 @@ wss.on('connection', (ws) => {
     data = JSON.parse(data)
 
     switch (data.type) {
+      case 'puzzle.new':
+        broadcast({
+          type: 'puzzle.newResp',
+          puzzle: math.generatePuzzle()
+        }, ws)
+        break
       case 'card.add':
         cards.add(data, (err, result) => {
           if (err) {

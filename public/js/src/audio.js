@@ -10,6 +10,7 @@ function generateAudio (opts) {
   var gainNode = audioCtx.createGain()
   var delayNode = audioCtx.createDelay()
   gainNode.gain.value = opts.gain
+  gainNode.gain.linearRampToValueAtTime(0.0, 1500)
   delayNode.delayTime.value = opts.delay
   delayNode.connect(gainNode)
   gainNode.connect(audioCtx.destination)
@@ -165,7 +166,7 @@ function play () {
     oscillator.stop()
     oscillator2.stop()
     oscillator3.stop()
-  }, 140)
+  }, 120)
 }
 
 module.exports = {

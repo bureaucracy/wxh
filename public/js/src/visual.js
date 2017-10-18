@@ -17,6 +17,9 @@ var info = document.querySelector('#info')
 var currentFace = document.querySelector('#face2')
 var wrapper = document.querySelector('#wrapper')
 
+var symbols = []
+var currentSymbols = {}
+
 function calculate () {
   var wavelength = utils.currentFreq
 
@@ -144,7 +147,71 @@ function resize () {
   ctx.clearRect(0, 0, canvas.width, canvas.height)
 }
 
+function add (data) {
+  symbols = []
+  data.puzzle.all.map(function (p) {
+    symbols.push(p)
+  })
+
+  var answerBox = document.createElement('div')
+  answerBox.className = 'solution'
+
+  for (var i = 0; i < 4; i++) {
+    currentSymbols['ans' + i] = 0
+    var inputItem = document.createElement('div')
+    inputItem.className = 'ansvalue'
+    inputItem.id = 'ans-' + i
+    inputItem.onclick = function (e) {
+      var self = e.target
+      var idx = self.id.split('-')[1]
+      self.textContent = symbols[currentSymbols['ans' + idx]]
+      console.log(currentSymbols['ans' + idx])
+      currentSymbols['ans' + idx] += 1
+      if (currentSymbols['ans' + idx] > Object.keys(symbols).length) {
+        currentSymbols['ans' + idx] = 0
+      }
+    }
+    answerBox.appendChild(inputItem)
+  }
+
+  var submit = document.createElement('button')
+  submit.type = 'button'
+  submit.textContent = '✓'
+
+  answerBox.appendChild(submit)
+
+  var puzzleNode = document.createElement('div')
+  puzzleNode.className = 'puzzle'
+  var p1 = document.createElement('p')
+  var p2 = document.createElement('p')
+  var first = data.puzzle.first
+  var second = data.puzzle.second
+
+  first.map((f) => {
+    var row = document.createElement('div')
+    row.className = 'row'
+    row.textContent = f.join('   ')
+    p1.appendChild(row)
+  })
+
+  second.map((f) => {
+    var row = document.createElement('div')
+    row.className = 'row'
+    row.textContent = f.join('   ')
+    p2.appendChild(row)
+  })
+
+  p1.style.width = (50 * first.length) + 'px'
+  p2.style.width = (50 * second.length) + 'px'
+
+  puzzleNode.appendChild(p1)
+  puzzleNode.appendChild(p2)
+  document.body.appendChild(puzzleNode)
+  document.body.appendChild(answerBox)
+}
+
 module.exports = {
+  add: add,
   calculate: calculate,
   resize: resize,
   generateGradient: generateGradient,
