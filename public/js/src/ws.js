@@ -1,7 +1,5 @@
 'use strict'
 
-var visualMod = require('./visual')
-
 var ws = {}
 
 var network = document.location.href
@@ -27,7 +25,6 @@ function reconnect () {
         ws[host[1]].onmessage = function (data) {
           console.log('incoming ', data)
           data = JSON.parse(data.data)
-          visualMod.add(data)
         }
       }
 

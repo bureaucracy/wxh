@@ -4,6 +4,7 @@
 var audioMod = require('./src/audio')
 var visualMod = require('./src/visual')
 var ws = require('./src/ws')
+var math = require('./src/math')
 
 ws.reconnect()
 visualMod.resize()
@@ -17,6 +18,8 @@ setInterval(function () {
   visualMod.resize()
   visualMod.switchBackground()
 }, 5000)
+
+visualMod.add(math.generatePuzzle())
 
 window.onkeydown = function (e) {
   if (e.which === 38) {
@@ -39,7 +42,7 @@ window.onkeydown = function (e) {
 window.requestAnimationFrame(visualMod.generateGradient)
 
 
-},{"./src/audio":2,"./src/visual":4,"./src/ws":5}],2:[function(require,module,exports){
+},{"./src/audio":2,"./src/math":3,"./src/visual":5,"./src/ws":6}],2:[function(require,module,exports){
 'use strict'
 
 // audio
@@ -219,7 +222,63 @@ module.exports = {
   play: play
 }
 
-},{"./utils":3}],3:[function(require,module,exports){
+},{"./utils":4}],3:[function(require,module,exports){
+'use strict'
+
+function generatePuzzle (level) {
+  if (!level) {
+    level = 1
+  }
+
+  var puzzle = {
+    first: [['⦿', '⊞', '⊛']],
+    second: [['⊔', '⊿', '⋇'], ['⋈', '⌖', '☆']],
+    all: ['⦿', '⊞', '⊛', '⊔', '⊿', '⋇', '⋈', '⌖', '☆']
+  }
+  /*
+  switch (level) {
+    case 1:
+    default:
+
+  }
+  */
+  return puzzle
+}
+
+function multiply (first, second) {
+  if ((!first || !first.length) || (!second || !second.length)) {
+    console.error('Missing matrices.')
+    return
+  }
+
+  if (first[0].length !== second[0].length) {
+    console.error('First matrix length does not match second matrix column length')
+    return
+  }
+
+  let newMatrix = []
+  let subMatrix = []
+
+  first.map((f) => {
+    second.map((s) => {
+      for (let i = 0; i < s.length; i++) {
+        subMatrix.push(f[i] + s[i])
+      }
+
+      newMatrix.push(subMatrix.join(''))
+      subMatrix = []
+    })
+  })
+  console.log('new matrix', newMatrix.join(''))
+  return newMatrix.join('')
+}
+
+module.exports = {
+  generatePuzzle: generatePuzzle,
+  multiply: multiply
+}
+
+},{}],4:[function(require,module,exports){
 'use strict'
 
 var SPEED_OF_LIGHT = 300000000
@@ -240,10 +299,11 @@ module.exports = {
   colorNM: 789
 }
 
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 'use strict'
 
 var utils = require('./utils')
+var math = require('./math')
 
 var RGBState = false
 
@@ -391,15 +451,25 @@ function resize () {
 }
 
 function add (data) {
+  var first = data.first
+  var second = data.second
+  var secondSymbolsTotal = 0
+
+  second.map(function (s) {
+    secondSymbolsTotal += s.length
+  })
+
   symbols = []
-  data.puzzle.all.map(function (p) {
+
+  data.all.map(function (p) {
     symbols.push(p)
   })
 
   var answerBox = document.createElement('div')
   answerBox.className = 'solution'
+  var totalBoxes = secondSymbolsTotal * first.length * 2
 
-  for (var i = 0; i < 4; i++) {
+  for (var i = 0; i < totalBoxes; i++) {
     currentSymbols['ans' + i] = 0
     var inputItem = document.createElement('div')
     inputItem.className = 'ansvalue'
@@ -408,18 +478,44 @@ function add (data) {
       var self = e.target
       var idx = self.id.split('-')[1]
       self.textContent = symbols[currentSymbols['ans' + idx]]
-      console.log(currentSymbols['ans' + idx])
+
       currentSymbols['ans' + idx] += 1
       if (currentSymbols['ans' + idx] > Object.keys(symbols).length) {
         currentSymbols['ans' + idx] = 0
       }
     }
     answerBox.appendChild(inputItem)
+
+    if ((i + 1) % 2 === 0 && (i < totalBoxes - 1)) {
+      var plus = document.createElement('div')
+      plus.className = 'plus'
+      plus.textContent = '+'
+      answerBox.appendChild(plus)
+    }
   }
 
   var submit = document.createElement('button')
   submit.type = 'button'
   submit.textContent = '✓'
+  submit.onclick = function (e) {
+    e.preventDefault()
+
+    var ans = document.querySelectorAll('.ansvalue')
+    var currentAnswer = ''
+
+    for (var i = 0; i < ans.length; i++) {
+      console.log(ans[i])
+      currentAnswer += ans[i].innerText
+    }
+
+    var answer = math.multiply(first, second)
+    console.log('........ ', answer, '--', currentAnswer)
+    if (answer !== currentAnswer) {
+      answerBox.classList.add('error')
+    } else {
+      answerBox.classList.remove('error')
+    }
+  }
 
   answerBox.appendChild(submit)
 
@@ -427,17 +523,15 @@ function add (data) {
   puzzleNode.className = 'puzzle'
   var p1 = document.createElement('p')
   var p2 = document.createElement('p')
-  var first = data.puzzle.first
-  var second = data.puzzle.second
 
-  first.map((f) => {
+  first.map(function (f) {
     var row = document.createElement('div')
     row.className = 'row'
     row.textContent = f.join('   ')
     p1.appendChild(row)
   })
 
-  second.map((f) => {
+  second.map(function (f) {
     var row = document.createElement('div')
     row.className = 'row'
     row.textContent = f.join('   ')
@@ -461,10 +555,8 @@ module.exports = {
   switchBackground: switchBackground
 }
 
-},{"./utils":3}],5:[function(require,module,exports){
+},{"./math":3,"./utils":4}],6:[function(require,module,exports){
 'use strict'
-
-var visualMod = require('./visual')
 
 var ws = {}
 
@@ -491,7 +583,6 @@ function reconnect () {
         ws[host[1]].onmessage = function (data) {
           console.log('incoming ', data)
           data = JSON.parse(data.data)
-          visualMod.add(data)
         }
       }
 
@@ -512,4 +603,4 @@ module.exports = {
   reconnect: reconnect
 }
 
-},{"./visual":4}]},{},[1]);
+},{}]},{},[1]);

@@ -258,16 +258,21 @@ canvas {
   transition: 1s all;
 }
 
-.ansvalue {
+.ansvalue, .plus {
   width: 2.7rem;
   height: 2.5rem;
-  background-color: #f00;
+  background-color: rgba(5, 200, 240, 0.8);
   color: #fff;
   margin: 1px 3px;
   font-size: 2.5rem;
   line-height: 2.5rem;
   text-align: center;
   user-select: none;
+}
+
+.plus {
+  background-color: transparent;
+  color: #00f;
 }
 
 button {
@@ -284,4 +289,12 @@ button {
 
 button:hover {
   background-color: rgb(10, 230, 200);
+}
+
+.solution.error .ansvalue {
+  background-color: #f00;
+}
+
+.solution.error button {
+  background-color: #f00;
 }

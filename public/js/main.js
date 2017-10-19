@@ -3,6 +3,7 @@
 var audioMod = require('./src/audio')
 var visualMod = require('./src/visual')
 var ws = require('./src/ws')
+var math = require('./src/math')
 
 ws.reconnect()
 visualMod.resize()
@@ -16,6 +17,8 @@ setInterval(function () {
   visualMod.resize()
   visualMod.switchBackground()
 }, 5000)
+
+visualMod.add(math.generatePuzzle())
 
 window.onkeydown = function (e) {
   if (e.which === 38) {
