@@ -2,6 +2,7 @@
 
 var utils = require('./utils')
 var math = require('./math')
+var audio = require('./audio')
 
 var RGBState = false
 
@@ -13,6 +14,7 @@ var lastRGB
 var percentage = 0.0
 var percentage2 = 0.0
 var backgroundOn = false
+var gameActive = false
 
 var info = document.querySelector('#info')
 var currentFace = document.querySelector('#face2')
@@ -149,9 +151,15 @@ function resize () {
 }
 
 function add (data) {
+  if (gameActive) {
+    return
+  }
   var first = data.first
   var second = data.second
   var secondSymbolsTotal = 0
+
+  var puzzleNode = document.createElement('div')
+  puzzleNode.id = 'puzzle'
 
   second.map(function (s) {
     secondSymbolsTotal += s.length
@@ -164,7 +172,7 @@ function add (data) {
   })
 
   var answerBox = document.createElement('div')
-  answerBox.className = 'solution'
+  answerBox.id = 'solution'
   var totalBoxes = secondSymbolsTotal * first.length * 2
 
   for (var i = 0; i < totalBoxes; i++) {
@@ -172,6 +180,7 @@ function add (data) {
     var inputItem = document.createElement('div')
     inputItem.className = 'ansvalue'
     inputItem.id = 'ans-' + i
+
     inputItem.onclick = function (e) {
       var self = e.target
       var idx = self.id.split('-')[1]
@@ -181,6 +190,8 @@ function add (data) {
       if (currentSymbols['ans' + idx] > Object.keys(symbols).length) {
         currentSymbols['ans' + idx] = 0
       }
+
+      audio.switchBlock()
     }
     answerBox.appendChild(inputItem)
 
@@ -202,23 +213,29 @@ function add (data) {
     var currentAnswer = ''
 
     for (var i = 0; i < ans.length; i++) {
-      console.log(ans[i])
       currentAnswer += ans[i].innerText
     }
 
     var answer = math.multiply(first, second)
-    console.log('........ ', answer, '--', currentAnswer)
+
     if (answer !== currentAnswer) {
       answerBox.classList.add('error')
+      audio.solveError()
     } else {
       answerBox.classList.remove('error')
+      audio.solveCorrect()
+      document.body.removeChild(document.querySelector('#solution'))
+      document.body.removeChild(document.querySelector('#puzzle'))
+      utils.currentLevel += 1
+
+      if (utils.currentLevel > 3) {
+        utils.currentLevel = 3
+      }
     }
   }
 
   answerBox.appendChild(submit)
 
-  var puzzleNode = document.createElement('div')
-  puzzleNode.className = 'puzzle'
   var p1 = document.createElement('p')
   var p2 = document.createElement('p')
 
@@ -243,6 +260,7 @@ function add (data) {
   puzzleNode.appendChild(p2)
   document.body.appendChild(puzzleNode)
   document.body.appendChild(answerBox)
+  gameActive = !gameActive
 }
 
 module.exports = {

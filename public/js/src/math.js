@@ -1,22 +1,37 @@
 'use strict'
 
-function generatePuzzle (level) {
-  if (!level) {
-    level = 1
-  }
+var utils = require('./utils')
 
+function generatePuzzle () {
   var puzzle = {
-    first: [['⦿', '⊞', '⊛']],
-    second: [['⊔', '⊿', '⋇'], ['⋈', '⌖', '☆']],
     all: ['⦿', '⊞', '⊛', '⊔', '⊿', '⋇', '⋈', '⌖', '☆']
   }
-  /*
+
+  var level = utils.currentLevel
+
+  function generate () {
+    var currIdx = Math.floor(Math.random() * (puzzle.all.length - 1 + 1)) + 1
+    return puzzle.all[currIdx - 1]
+  }
+
   switch (level) {
     case 1:
+      puzzle.first = [[generate()]]
+      puzzle.second = [[generate()]]
+      break
+    case 2:
+      puzzle.first = [[generate(), generate()]]
+      puzzle.second = [[generate(), generate()]]
+      break
+    case 3:
+      puzzle.first = [[generate(), generate(), generate()]]
+      puzzle.second = [[generate(), generate(), generate()], [generate(), generate(), generate()]]
+      break
     default:
-
+      puzzle.first = [[generate()]]
+      puzzle.second = [[generate()]]
   }
-  */
+
   return puzzle
 }
 

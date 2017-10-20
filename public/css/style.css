@@ -199,7 +199,7 @@ canvas {
   margin: 5px 2px;
 }
 
-.puzzle {
+#puzzle {
   position: fixed;
   z-index: 3;
   top: 10vh;
@@ -229,7 +229,7 @@ canvas {
   }
 }
 
-.puzzle p {
+#puzzle p {
   text-align: center;
   border: 1px solid rgba(10, 200, 250, 0.8);
   margin: 10px;
@@ -240,7 +240,7 @@ canvas {
   float: left;
 }
 
-.solution {
+#solution {
   position: fixed;
   left: 10px;
   bottom: 110px;
@@ -253,7 +253,7 @@ canvas {
   transition: 1s all;
 }
 
-.solution:hover {
+#solution:hover {
   opacity: 1.0;
   transition: 1s all;
 }
@@ -291,10 +291,10 @@ button:hover {
   background-color: rgb(10, 230, 200);
 }
 
-.solution.error .ansvalue {
+#solution.error .ansvalue {
   background-color: #f00;
 }
 
-.solution.error button {
+#solution.error button {
   background-color: #f00;
 }

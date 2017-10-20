@@ -137,7 +137,7 @@ function play () {
   var oscillator = audioCtx.createOscillator()
   var gainNode = audioCtx.createGain()
   gainNode.connect(audioCtx.destination)
-  gainNode.gain.value = 0.2
+  gainNode.gain.value = 0.3
   var delayNode = audioCtx.createDelay()
   delayNode.delayTime.value = 0.5
   delayNode.connect(gainNode)
@@ -162,11 +162,107 @@ function play () {
   oscillator3.connect(gainNode)
   oscillator3.start()
 
+  gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 1)
+
   setTimeout(function () {
     oscillator.stop()
     oscillator2.stop()
     oscillator3.stop()
-  }, 120)
+  }, 130)
+}
+
+function switchBlock () {
+  var oscillator = audioCtx.createOscillator()
+  var gainNode = audioCtx.createGain()
+  gainNode.connect(audioCtx.destination)
+  gainNode.gain.value = 0.2
+  var delayNode = audioCtx.createDelay()
+  delayNode.delayTime.value = 0.5
+  delayNode.connect(gainNode)
+  gainNode.connect(audioCtx.destination)
+
+  oscillator.type = 'sine'
+  oscillator.frequency.value = 180 // value in hertz
+  oscillator.connect(gainNode)
+  oscillator.start()
+
+  var oscillator2 = audioCtx.createOscillator()
+
+  oscillator2.type = 'triangle'
+  oscillator2.frequency.value = 180 // value in hertz
+  oscillator2.connect(gainNode)
+  oscillator2.start()
+
+  setTimeout(function () {
+    oscillator.stop()
+    oscillator2.stop()
+  }, 100)
+}
+
+function solveError () {
+  var oscillator = audioCtx.createOscillator()
+  var gainNode = audioCtx.createGain()
+  gainNode.connect(audioCtx.destination)
+  gainNode.gain.value = 0.2
+  var delayNode = audioCtx.createDelay()
+  delayNode.delayTime.value = 0.5
+  delayNode.connect(gainNode)
+  gainNode.connect(audioCtx.destination)
+
+  oscillator.type = 'sawtooth'
+  oscillator.frequency.value = 100 // value in hertz
+  oscillator.connect(gainNode)
+  oscillator.start()
+
+  var oscillator2 = audioCtx.createOscillator()
+
+  oscillator2.type = 'triangle'
+  oscillator2.frequency.value = 120 // value in hertz
+  oscillator2.connect(gainNode)
+  oscillator2.start()
+
+  setTimeout(function () {
+    oscillator.stop()
+    oscillator2.stop()
+  }, 200)
+}
+
+function solveCorrect () {
+  var oscillator = audioCtx.createOscillator()
+  var gainNode = audioCtx.createGain()
+  gainNode.connect(audioCtx.destination)
+  gainNode.gain.value = 0.4
+  var delayNode = audioCtx.createDelay()
+  delayNode.delayTime.value = 0.2
+  delayNode.connect(gainNode)
+  gainNode.connect(audioCtx.destination)
+
+  oscillator.type = 'sine'
+  oscillator.frequency.value = 195 // value in hertz
+  oscillator.connect(gainNode)
+  oscillator.start()
+
+  var oscillator2 = audioCtx.createOscillator()
+
+  oscillator2.type = 'triangle'
+  oscillator2.frequency.value = 110 // value in hertz
+  oscillator2.connect(gainNode)
+  oscillator2.start()
+
+  var oscillator3 = audioCtx.createOscillator()
+
+  oscillator3.type = 'triangle'
+  oscillator3.frequency.value = 80 // value in hertz
+  oscillator3.connect(gainNode)
+  oscillator3.start()
+
+  gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 3)
+
+  setTimeout(function () {
+    oscillator.stop()
+    oscillator2.stop()
+    oscillator3.stop()
+  }, 2000)
 }
 
 module.exports = {
@@ -174,5 +270,8 @@ module.exports = {
   down: down,
   left: left,
   right: right,
-  play: play
+  play: play,
+  switchBlock: switchBlock,
+  solveError: solveError,
+  solveCorrect: solveCorrect
 }

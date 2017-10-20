@@ -7,8 +7,7 @@
     "npm": "5.x.x"
   },
   "scripts": {
-    "start": "node index.js",
-    "dev": "npm run watch | nodemon index.js",
+    "dev": "npm run watch",
     "build": "node_modules/.bin/browserify ./public/js/main.js | node_modules/.bin/uglifyjs ./public/js/bundle.js -o -m ./public/js/bundle.min.js",
     "watch": "node_modules/.bin/watchify ./public/js/main.js -o ./public/js/bundle.js -v"
   },

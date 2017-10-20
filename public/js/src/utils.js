@@ -15,5 +15,6 @@ module.exports = {
   currentBlue: 0.0,
   currentGreen: 0.0,
   currentHorizontal: 0.5,
-  colorNM: 789
+  colorNM: 789,
+  currentLevel: 1
 }
