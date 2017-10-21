@@ -9,6 +9,7 @@ var canvas = document.querySelector('canvas')
 var debug = document.querySelector('#debug')
 
 visualMod.resize()
+audioMod.play()
 
 shop.onclick = function () {
   visualMod.add(math.generatePuzzle())
@@ -59,7 +60,7 @@ function updateViz (pageX, pageY) {
   }
 }
 
-canvas.ontouchmove = function (e) {
+canvas.ontouchmove = canvas.ontouchstart = function (e) {
   e.preventDefault()
 
   var pageX = 0
