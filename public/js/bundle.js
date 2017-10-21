@@ -43,16 +43,27 @@ window.onkeydown = function (e) {
 }
 
 window.ontouchstart = function (e) {
-  if (e.touches[0].screenY <= (document.innerHeight / 3)) {
+  var clientX = 0
+  var clientY = 0
+
+  if (e.touches) {
+    clientX = e.touches[0].clientX
+    clientY = e.touches[0].clientY
+  } else {
+    clientX = e.clientX
+    clientY = e.clientY
+  }
+  window.alert(clientX + ' --- ', clientY)
+  if (clientY <= (document.innerHeight / 3)) {
     // up
     audioMod.up()
-  } else if (e.touches[0].screenY >= (document.innerHeight / 3) * 2) {
+  } else if (clientY >= (document.innerHeight / 3) * 2) {
     // down
     audioMod.down()
-  } else if (e.touches[0].screenX <= (document.innerWidth / 3)) {
+  } else if (clientX <= (document.innerWidth / 3)) {
     // left
     audioMod.left()
-  } else if (e.touches[0].screenX >= (document.innerWidth / 3) * 2) {
+  } else if (clientX >= (document.innerWidth / 3) * 2) {
     // right
     audioMod.right()
   }

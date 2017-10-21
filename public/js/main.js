@@ -52,7 +52,7 @@ window.ontouchstart = function (e) {
     clientX = e.clientX
     clientY = e.clientY
   }
-
+  window.alert(clientX + ' --- ', clientY)
   if (clientY <= (document.innerHeight / 3)) {
     // up
     audioMod.up()
