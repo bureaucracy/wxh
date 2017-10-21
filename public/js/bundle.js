@@ -42,7 +42,7 @@ window.onkeydown = function (e) {
   visualMod.calculate()
 }
 
-window.ontouchmove = function (e) {
+window.ontouchstart = function (e) {
   var clientX = 0
   var clientY = 0
 
