@@ -57,8 +57,8 @@ function updateViz (pageX, pageY) {
   }
 }
 
-window.ontouchstart = function (e) {
-  alert('got here! ', e.touches)
+document.querySelector('canvas').ontouchstart = function (e) {
+  window.alert('got here! ', e.touches)
   e.preventDefault()
 
   var pageX = 0
