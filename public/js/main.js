@@ -41,17 +41,17 @@ window.onkeydown = function (e) {
   visualMod.calculate()
 }
 
-function updateViz (clientX, clientY) {
-  if (clientY <= (document.innerHeight / 3)) {
+function updateViz (pageX, pageY) {
+  if (pageY <= (document.innerHeight / 3)) {
     // up
     audioMod.up()
-  } else if (clientY >= (document.innerHeight / 3) * 2) {
+  } else if (pageY >= (document.innerHeight / 3) * 2) {
     // down
     audioMod.down()
-  } else if (clientX <= (document.innerWidth / 3)) {
+  } else if (pageX <= (document.innerWidth / 3)) {
     // left
     audioMod.left()
-  } else if (clientX >= (document.innerWidth / 3) * 2) {
+  } else if (pageX >= (document.innerWidth / 3) * 2) {
     // right
     audioMod.right()
   }
@@ -60,19 +60,19 @@ function updateViz (clientX, clientY) {
 window.ontouchstart = function (e) {
   e.preventDefault()
 
-  var clientX = 0
-  var clientY = 0
+  var pageX = 0
+  var pageY = 0
 
   if (e.touches) {
     for (var i = 0; i < e.touches.length; i++) {
-      clientX = e.touches[i].clientX
-      clientY = e.touches[i].clientY
-      updateViz(clientX, clientY)
+      pageX = e.touches[i].pageX
+      pageY = e.touches[i].pageY
+      updateViz(pageX, pageY)
     }
   } else {
-    clientX = e.clientX
-    clientY = e.clientY
-    updateViz(clientX, clientY)
+    pageX = e.clientX
+    pageY = e.clientY
+    updateViz(pageX, pageY)
   }
 }
 
