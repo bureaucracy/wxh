@@ -7,6 +7,7 @@ var math = require('./src/math')
 
 var shop = document.querySelector('#shop')
 var canvas = document.querySelector('canvas')
+var debug = document.querySelector('#debug')
 
 visualMod.resize()
 
@@ -67,6 +68,7 @@ canvas.ontouchstart = function (e) {
 
   if (e.touches) {
     for (var i = 0; i < e.touches.length; i++) {
+      debug.textContent = e.touches[i].pageX + ', ' + e.touches[i].pageY
       pageX = e.touches[i].pageX
       pageY = e.touches[i].pageY
       updateViz(pageX, pageY)
