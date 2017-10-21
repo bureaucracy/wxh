@@ -41,7 +41,7 @@ window.onkeydown = function (e) {
   visualMod.calculate()
 }
 
-window.ontouchstart = function (e) {
+window.ontouchmove = function (e) {
   var clientX = 0
   var clientY = 0
 
@@ -52,7 +52,7 @@ window.ontouchstart = function (e) {
     clientX = e.clientX
     clientY = e.clientY
   }
-  window.alert(clientX + ' --- ', clientY)
+
   if (clientY <= (document.innerHeight / 3)) {
     // up
     audioMod.up()
