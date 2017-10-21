@@ -5,6 +5,7 @@ var visualMod = require('./src/visual')
 var math = require('./src/math')
 
 var shop = document.querySelector('#shop')
+var canvas = document.querySelector('canvas')
 
 visualMod.resize()
 
@@ -57,8 +58,7 @@ function updateViz (pageX, pageY) {
   }
 }
 
-document.querySelector('canvas').ontouchstart = function (e) {
-  window.alert('got here! ', e.touches)
+canvas.ontouchstart = function (e) {
   e.preventDefault()
 
   var pageX = 0
