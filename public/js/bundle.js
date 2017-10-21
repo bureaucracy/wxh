@@ -8,6 +8,7 @@ var math = require('./src/math')
 var shop = document.querySelector('#shop')
 var canvas = document.querySelector('canvas')
 var debug = document.querySelector('#debug')
+var wrapper = document.querySelector('#wrapper')
 
 visualMod.resize()
 
@@ -45,22 +46,22 @@ window.onkeydown = function (e) {
 }
 
 function updateViz (pageX, pageY) {
-  if (pageY <= (document.innerHeight / 3)) {
+  if (pageY <= 100) {
     // up
     audioMod.up()
-  } else if (pageY >= (document.innerHeight / 3) * 2) {
+  } else if (pageY >= 125) {
     // down
     audioMod.down()
-  } else if (pageX <= (document.innerWidth / 3)) {
+  } else if (pageX <= 50) {
     // left
     audioMod.left()
-  } else if (pageX >= (document.innerWidth / 3) * 2) {
+  } else if (pageX >= 320) {
     // right
     audioMod.right()
   }
 }
 
-canvas.ontouchstart = function (e) {
+canvas.ontouchstart = wrapper.ontouchstart = function (e) {
   e.preventDefault()
 
   var pageX = 0
@@ -74,8 +75,8 @@ canvas.ontouchstart = function (e) {
       updateViz(pageX, pageY)
     }
   } else {
-    pageX = e.clientX
-    pageY = e.clientY
+    pageX = e.pageX
+    pageY = e.pageY
     updateViz(pageX, pageY)
   }
 }
