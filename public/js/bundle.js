@@ -11,6 +11,7 @@ visualMod.resize()
 
 shop.onclick = function () {
   visualMod.add(math.generatePuzzle())
+  audioMod.startGame()
 }
 
 window.onresize = function () {
@@ -41,6 +42,22 @@ window.onkeydown = function (e) {
   visualMod.calculate()
 }
 
+window.ontouchstart = function (e) {
+  if (e.touches[0].screenY <= (document.innerHeight / 3)) {
+    // up
+    audioMod.up()
+  } else if (e.touches[0].screenY >= (document.innerHeight / 3) * 2) {
+    // down
+    audioMod.down()
+  } else if (e.touches[0].screenX <= (document.innerWidth / 3)) {
+    // left
+    audioMod.left()
+  } else if (e.touches[0].screenX >= (document.innerWidth / 3) * 2) {
+    // right
+    audioMod.right()
+  }
+}
+
 window.requestAnimationFrame(visualMod.generateGradient)
 
 
@@ -65,13 +82,13 @@ function generateAudio (opts) {
   oscillator.frequency.value = opts.osc1[1] - (utils.colorNM - opts.osc1[2]) // value in hertz
   oscillator.connect(gainNode)
   oscillator.start()
-  console.log('## ', oscillator.frequency.value, utils.colorNM)
+  // console.log('## ', oscillator.frequency.value, utils.colorNM)
   var oscillator2 = audioCtx.createOscillator()
 
   oscillator2.type = opts.osc2[0]
   oscillator2.frequency.value = opts.osc2[1] - (utils.colorNM - opts.osc2[2]) // value in hertz
   oscillator2.connect(gainNode)
-  console.log('##2 ', oscillator2.frequency.value, utils.colorNM)
+  // console.log('##2 ', oscillator2.frequency.value, utils.colorNM)
   oscillator2.start()
 
   var oscillator3 = audioCtx.createOscillator()
@@ -79,8 +96,10 @@ function generateAudio (opts) {
   oscillator3.type = opts.osc3[0]
   oscillator3.frequency.value = opts.osc3[1] - (utils.colorNM - opts.osc3[2]) // value in hertz
   oscillator3.connect(gainNode)
-  console.log('##3 ', oscillator3.frequency.value, utils.colorNM)
+  // console.log('##3 ', oscillator3.frequency.value, utils.colorNM)
   oscillator3.start()
+
+  gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 2)
 
   setTimeout(function () {
     oscillator.stop()
@@ -90,7 +109,7 @@ function generateAudio (opts) {
 }
 
 function up () {
-  utils.currentFreq += 500000000000
+  utils.currentFreq += 100000000000
   if (utils.currentFreq > utils.HIGHEST_FREQ_HZ) {
     utils.currentFreq = utils.HIGHEST_FREQ_HZ
   }
@@ -98,15 +117,15 @@ function up () {
   generateAudio({
     gain: 0.01,
     delay: 0.5,
-    osc1: ['sawtooth', 410, 380],
-    osc2: ['sine', 410, 460],
-    osc3: ['sine', 480, 320],
+    osc1: ['sine', 380, 310],
+    osc2: ['sine', 410, 390],
+    osc3: ['sawtooth', 430, 410],
     timeout: 1700
   })
 }
 
 function down () {
-  utils.currentFreq -= 500000000000
+  utils.currentFreq -= 100000000000
   if (utils.currentFreq < utils.LOWEST_FREQ_HZ) {
     utils.currentFreq = utils.LOWEST_FREQ_HZ
   }
@@ -114,10 +133,10 @@ function down () {
   generateAudio({
     gain: 0.01,
     delay: 0.15,
-    osc1: ['sawtooth', 430, 360],
-    osc2: ['triangle', 400, 390],
-    osc3: ['sine', 480, 320],
-    timeout: 1800
+    osc1: ['sine', 400, 310],
+    osc2: ['sine', 430, 400],
+    osc3: ['sawtooth', 430, 410],
+    timeout: 2200
   })
 }
 
@@ -141,12 +160,12 @@ function left () {
   }
 
   generateAudio({
-    gain: 0.01,
+    gain: 0.02,
     delay: 0.35,
-    osc1: ['sawtooth', 400, 410],
+    osc1: ['triangle', 200, 410],
     osc2: ['sine', 430, 400],
-    osc3: ['triangle', 440, 400],
-    timeout: 1800
+    osc3: ['triangle', 420, 400],
+    timeout: 2200
   })
 }
 
@@ -170,12 +189,12 @@ function right () {
   }
 
   generateAudio({
-    gain: 0.01,
+    gain: 0.02,
     delay: 0.75,
-    osc1: ['sawtooth', 420, 390],
-    osc2: ['sine', 410, 350],
-    osc3: ['sawtooth', 400, 390],
-    timeout: 1700
+    osc1: ['triangle', 200, 370],
+    osc2: ['sine', 430, 400],
+    osc3: ['triangle', 420, 360],
+    timeout: 2200
   })
 }
 
@@ -191,7 +210,7 @@ function play () {
   gainNode.connect(audioCtx.destination)
 
   oscillator.type = 'sine'
-  oscillator.frequency.value = 70 // value in hertz
+  oscillator.frequency.value = 60 // value in hertz
   oscillator.connect(gainNode)
   oscillator.start()
 
@@ -205,17 +224,17 @@ function play () {
   var oscillator3 = audioCtx.createOscillator()
 
   oscillator3.type = 'sine'
-  oscillator3.frequency.value = 90 // value in hertz
+  oscillator3.frequency.value = 80 // value in hertz
   oscillator3.connect(gainNode)
   oscillator3.start()
 
-  gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 1)
+  gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.80)
 
   setTimeout(function () {
     oscillator.stop()
     oscillator2.stop()
     oscillator3.stop()
-  }, 130)
+  }, 850)
 }
 
 function switchBlock () {
@@ -240,10 +259,12 @@ function switchBlock () {
   oscillator2.connect(gainNode)
   oscillator2.start()
 
+  gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 1)
+
   setTimeout(function () {
     oscillator.stop()
     oscillator2.stop()
-  }, 100)
+  }, 1000)
 }
 
 function solveError () {
@@ -271,7 +292,7 @@ function solveError () {
   setTimeout(function () {
     oscillator.stop()
     oscillator2.stop()
-  }, 200)
+  }, 300)
 }
 
 function solveCorrect () {
@@ -303,13 +324,51 @@ function solveCorrect () {
   oscillator3.connect(gainNode)
   oscillator3.start()
 
-  gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 3)
+  gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 2)
 
   setTimeout(function () {
     oscillator.stop()
     oscillator2.stop()
     oscillator3.stop()
-  }, 2000)
+  }, 2500)
+}
+
+function startGame () {
+  var oscillator = audioCtx.createOscillator()
+  var gainNode = audioCtx.createGain()
+  gainNode.connect(audioCtx.destination)
+  gainNode.gain.value = 0.3
+  var delayNode = audioCtx.createDelay()
+  delayNode.delayTime.value = 0.2
+  delayNode.connect(gainNode)
+  gainNode.connect(audioCtx.destination)
+
+  oscillator.type = 'sine'
+  oscillator.frequency.value = 215 // value in hertz
+  oscillator.connect(gainNode)
+  oscillator.start()
+
+  var oscillator2 = audioCtx.createOscillator()
+
+  oscillator2.type = 'triangle'
+  oscillator2.frequency.value = 120 // value in hertz
+  oscillator2.connect(gainNode)
+  oscillator2.start()
+
+  var oscillator3 = audioCtx.createOscillator()
+
+  oscillator3.type = 'sawtooth'
+  oscillator3.frequency.value = 20 // value in hertz
+  oscillator3.connect(gainNode)
+  oscillator3.start()
+
+  gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 2)
+
+  setTimeout(function () {
+    oscillator.stop()
+    oscillator2.stop()
+    oscillator3.stop()
+  }, 2500)
 }
 
 module.exports = {
@@ -320,7 +379,8 @@ module.exports = {
   play: play,
   switchBlock: switchBlock,
   solveError: solveError,
-  solveCorrect: solveCorrect
+  solveCorrect: solveCorrect,
+  startGame: startGame
 }
 
 },{"./utils":4}],3:[function(require,module,exports){
@@ -340,22 +400,45 @@ function generatePuzzle () {
     return puzzle.all[currIdx - 1]
   }
 
+  function generateCoordinates () {
+    var freq = Math.floor(Math.random() * (utils.HIGHEST_FREQ_HZ - utils.LOWEST_FREQ_HZ + 1)) + utils.LOWEST_FREQ_HZ
+    freq = Math.trunc(freq / Math.pow(10, 11)) * Math.pow(10, 11)
+    return {
+      freq: freq,
+      horiz: parseFloat(Math.random()).toFixed(3)
+    }
+  }
+
   switch (level) {
     case 1:
       puzzle.first = [[generate()]]
       puzzle.second = [[generate()]]
+      puzzle.coord = generateCoordinates()
       break
     case 2:
       puzzle.first = [[generate(), generate()]]
       puzzle.second = [[generate(), generate()]]
+      puzzle.coord = generateCoordinates()
       break
     case 3:
       puzzle.first = [[generate(), generate(), generate()]]
       puzzle.second = [[generate(), generate(), generate()], [generate(), generate(), generate()]]
+      puzzle.coord = generateCoordinates()
+      break
+    case 4:
+      puzzle.first = [[generate(), generate(), generate()], [generate(), generate(), generate()]]
+      puzzle.second = [[generate(), generate(), generate()], [generate(), generate(), generate()], [generate(), generate(), generate()], [generate(), generate(), generate()]]
+      puzzle.coord = generateCoordinates()
+      break
+    case 5:
+      puzzle.first = [[generate(), generate(), generate(), generate()], [generate(), generate(), generate(), generate()], [generate(), generate(), generate(), generate()]]
+      puzzle.second = [[generate(), generate(), generate(), generate()], [generate(), generate(), generate(), generate()], [generate(), generate(), generate(), generate()], [generate(), generate(), generate(), generate()]]
+      puzzle.coord = generateCoordinates()
       break
     default:
       puzzle.first = [[generate()]]
       puzzle.second = [[generate()]]
+      puzzle.coord = generateCoordinates()
   }
 
   return puzzle
@@ -413,7 +496,8 @@ module.exports = {
   currentGreen: 0.0,
   currentHorizontal: 0.5,
   colorNM: 789,
-  currentLevel: 1
+  currentLevel: 1,
+  currentIteration: 0
 }
 
 },{}],5:[function(require,module,exports){
@@ -438,6 +522,7 @@ var gameActive = false
 var info = document.querySelector('#info')
 var currentFace = document.querySelector('#face2')
 var wrapper = document.querySelector('#wrapper')
+var levelStatus = document.querySelector('#level')
 
 var symbols = []
 var currentSymbols = {}
@@ -573,8 +658,10 @@ function add (data) {
   if (gameActive) {
     return
   }
+
   var first = data.first
   var second = data.second
+  var coord = data.coord
   var secondSymbolsTotal = 0
 
   var puzzleNode = document.createElement('div')
@@ -637,7 +724,10 @@ function add (data) {
 
     var answer = math.multiply(first, second)
 
-    if (answer !== currentAnswer) {
+    var validAnswer = (answer === currentAnswer)
+    var validCoord = (utils.currentHorizontal == coord.horiz && utils.currentFreq == coord.freq)
+
+    if (!validAnswer || !validCoord) {
       answerBox.classList.add('error')
       audio.solveError()
     } else {
@@ -645,18 +735,29 @@ function add (data) {
       audio.solveCorrect()
       document.body.removeChild(document.querySelector('#solution'))
       document.body.removeChild(document.querySelector('#puzzle'))
-      utils.currentLevel += 1
 
-      if (utils.currentLevel > 3) {
-        utils.currentLevel = 3
+      utils.currentIteration += 1
+
+      if (utils.currentIteration % 3 === 0) {
+        utils.currentLevel += 1
+        utils.currentIteration = 0
+        levelStatus.querySelector('span').textContent = utils.currentLevel
       }
+
+      if (utils.currentLevel > 5) {
+        utils.currentLevel = 5
+      }
+      gameActive = false
     }
   }
 
   answerBox.appendChild(submit)
 
+  var h2 = document.createElement('h2')
   var p1 = document.createElement('p')
   var p2 = document.createElement('p')
+
+  h2.textContent = coord.freq + ' / ' + coord.horiz
 
   first.map(function (f) {
     var row = document.createElement('div')
@@ -675,11 +776,12 @@ function add (data) {
   p1.style.width = (50 * first.length) + 'px'
   p2.style.width = (50 * second.length) + 'px'
 
+  puzzleNode.appendChild(h2)
   puzzleNode.appendChild(p1)
   puzzleNode.appendChild(p2)
   document.body.appendChild(puzzleNode)
   document.body.appendChild(answerBox)
-  gameActive = !gameActive
+  gameActive = true
 }
 
 module.exports = {

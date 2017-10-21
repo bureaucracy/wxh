@@ -10,6 +10,7 @@ visualMod.resize()
 
 shop.onclick = function () {
   visualMod.add(math.generatePuzzle())
+  audioMod.startGame()
 }
 
 window.onresize = function () {
@@ -38,6 +39,22 @@ window.onkeydown = function (e) {
   }
 
   visualMod.calculate()
+}
+
+window.ontouchstart = function (e) {
+  if (e.touches[0].screenY <= (document.innerHeight / 3)) {
+    // up
+    audioMod.up()
+  } else if (e.touches[0].screenY >= (document.innerHeight / 3) * 2) {
+    // down
+    audioMod.down()
+  } else if (e.touches[0].screenX <= (document.innerWidth / 3)) {
+    // left
+    audioMod.left()
+  } else if (e.touches[0].screenX >= (document.innerWidth / 3) * 2) {
+    // right
+    audioMod.right()
+  }
 }
 
 window.requestAnimationFrame(visualMod.generateGradient)

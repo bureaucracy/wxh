@@ -14,22 +14,45 @@ function generatePuzzle () {
     return puzzle.all[currIdx - 1]
   }
 
+  function generateCoordinates () {
+    var freq = Math.floor(Math.random() * (utils.HIGHEST_FREQ_HZ - utils.LOWEST_FREQ_HZ + 1)) + utils.LOWEST_FREQ_HZ
+    freq = Math.trunc(freq / Math.pow(10, 11)) * Math.pow(10, 11)
+    return {
+      freq: freq,
+      horiz: parseFloat(Math.random()).toFixed(3)
+    }
+  }
+
   switch (level) {
     case 1:
       puzzle.first = [[generate()]]
       puzzle.second = [[generate()]]
+      puzzle.coord = generateCoordinates()
       break
     case 2:
       puzzle.first = [[generate(), generate()]]
       puzzle.second = [[generate(), generate()]]
+      puzzle.coord = generateCoordinates()
       break
     case 3:
       puzzle.first = [[generate(), generate(), generate()]]
       puzzle.second = [[generate(), generate(), generate()], [generate(), generate(), generate()]]
+      puzzle.coord = generateCoordinates()
+      break
+    case 4:
+      puzzle.first = [[generate(), generate(), generate()], [generate(), generate(), generate()]]
+      puzzle.second = [[generate(), generate(), generate()], [generate(), generate(), generate()], [generate(), generate(), generate()], [generate(), generate(), generate()]]
+      puzzle.coord = generateCoordinates()
+      break
+    case 5:
+      puzzle.first = [[generate(), generate(), generate(), generate()], [generate(), generate(), generate(), generate()], [generate(), generate(), generate(), generate()]]
+      puzzle.second = [[generate(), generate(), generate(), generate()], [generate(), generate(), generate(), generate()], [generate(), generate(), generate(), generate()], [generate(), generate(), generate(), generate()]]
+      puzzle.coord = generateCoordinates()
       break
     default:
       puzzle.first = [[generate()]]
       puzzle.second = [[generate()]]
+      puzzle.coord = generateCoordinates()
   }
 
   return puzzle

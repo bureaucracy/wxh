@@ -19,6 +19,7 @@ var gameActive = false
 var info = document.querySelector('#info')
 var currentFace = document.querySelector('#face2')
 var wrapper = document.querySelector('#wrapper')
+var levelStatus = document.querySelector('#level')
 
 var symbols = []
 var currentSymbols = {}
@@ -154,8 +155,10 @@ function add (data) {
   if (gameActive) {
     return
   }
+
   var first = data.first
   var second = data.second
+  var coord = data.coord
   var secondSymbolsTotal = 0
 
   var puzzleNode = document.createElement('div')
@@ -218,7 +221,10 @@ function add (data) {
 
     var answer = math.multiply(first, second)
 
-    if (answer !== currentAnswer) {
+    var validAnswer = (answer === currentAnswer)
+    var validCoord = (utils.currentHorizontal == coord.horiz && utils.currentFreq == coord.freq)
+
+    if (!validAnswer || !validCoord) {
       answerBox.classList.add('error')
       audio.solveError()
     } else {
@@ -226,18 +232,29 @@ function add (data) {
       audio.solveCorrect()
       document.body.removeChild(document.querySelector('#solution'))
       document.body.removeChild(document.querySelector('#puzzle'))
-      utils.currentLevel += 1
 
-      if (utils.currentLevel > 3) {
-        utils.currentLevel = 3
+      utils.currentIteration += 1
+
+      if (utils.currentIteration % 3 === 0) {
+        utils.currentLevel += 1
+        utils.currentIteration = 0
+        levelStatus.querySelector('span').textContent = utils.currentLevel
       }
+
+      if (utils.currentLevel > 5) {
+        utils.currentLevel = 5
+      }
+      gameActive = false
     }
   }
 
   answerBox.appendChild(submit)
 
+  var h2 = document.createElement('h2')
   var p1 = document.createElement('p')
   var p2 = document.createElement('p')
+
+  h2.textContent = coord.freq + ' / ' + coord.horiz
 
   first.map(function (f) {
     var row = document.createElement('div')
@@ -256,11 +273,12 @@ function add (data) {
   p1.style.width = (50 * first.length) + 'px'
   p2.style.width = (50 * second.length) + 'px'
 
+  puzzleNode.appendChild(h2)
   puzzleNode.appendChild(p1)
   puzzleNode.appendChild(p2)
   document.body.appendChild(puzzleNode)
   document.body.appendChild(answerBox)
-  gameActive = !gameActive
+  gameActive = true
 }
 
 module.exports = {
