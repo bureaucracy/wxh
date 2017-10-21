@@ -69,12 +69,12 @@ function multiply (first, second) {
     return
   }
 
-  let newMatrix = []
-  let subMatrix = []
+  var newMatrix = []
+  var subMatrix = []
 
-  first.map((f) => {
-    second.map((s) => {
-      for (let i = 0; i < s.length; i++) {
+  first.map(function (f) {
+    second.map(function (s) {
+      for (var i = 0; i < s.length; i++) {
         subMatrix.push(f[i] + s[i])
       }
 

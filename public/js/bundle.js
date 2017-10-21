@@ -42,7 +42,7 @@ window.onkeydown = function (e) {
   visualMod.calculate()
 }
 
-window.ontouchstart = function (e) {
+window.ontouchmove = function (e) {
   var clientX = 0
   var clientY = 0
 
@@ -53,7 +53,7 @@ window.ontouchstart = function (e) {
     clientX = e.clientX
     clientY = e.clientY
   }
-  window.alert(clientX + ' --- ', clientY)
+
   if (clientY <= (document.innerHeight / 3)) {
     // up
     audioMod.up()
@@ -466,12 +466,12 @@ function multiply (first, second) {
     return
   }
 
-  let newMatrix = []
-  let subMatrix = []
+  var newMatrix = []
+  var subMatrix = []
 
-  first.map((f) => {
-    second.map((s) => {
-      for (let i = 0; i < s.length; i++) {
+  first.map(function (f) {
+    second.map(function (s) {
+      for (var i = 0; i < s.length; i++) {
         subMatrix.push(f[i] + s[i])
       }
 
