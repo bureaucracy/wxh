@@ -8,7 +8,6 @@ var math = require('./src/math')
 var shop = document.querySelector('#shop')
 var canvas = document.querySelector('canvas')
 var debug = document.querySelector('#debug')
-var wrapper = document.querySelector('#wrapper')
 
 visualMod.resize()
 
@@ -61,7 +60,7 @@ function updateViz (pageX, pageY) {
   }
 }
 
-canvas.ontouchstart = wrapper.ontouchstart = function (e) {
+canvas.ontouchmove = function (e) {
   e.preventDefault()
 
   var pageX = 0
