@@ -24,34 +24,30 @@ function generatePuzzle () {
   }
 
   switch (level) {
-    case 1:
-      puzzle.first = [[generate()]]
-      puzzle.second = [[generate()]]
-      puzzle.coord = generateCoordinates()
-      break
     case 2:
       puzzle.first = [[generate(), generate()]]
-      puzzle.second = [[generate(), generate()]]
+      puzzle.second = [[generate(), generate()], [generate(), generate()]]
       puzzle.coord = generateCoordinates()
       break
     case 3:
-      puzzle.first = [[generate(), generate(), generate()]]
+      puzzle.first = [[generate(), generate(), generate()], [generate(), generate(), generate()]]
       puzzle.second = [[generate(), generate(), generate()], [generate(), generate(), generate()]]
       puzzle.coord = generateCoordinates()
       break
     case 4:
-      puzzle.first = [[generate(), generate(), generate()], [generate(), generate(), generate()]]
+      puzzle.first = [[generate(), generate(), generate()], [generate(), generate(), generate()], [generate(), generate(), generate()]]
       puzzle.second = [[generate(), generate(), generate()], [generate(), generate(), generate()], [generate(), generate(), generate()], [generate(), generate(), generate()]]
       puzzle.coord = generateCoordinates()
       break
     case 5:
-      puzzle.first = [[generate(), generate(), generate(), generate()], [generate(), generate(), generate(), generate()], [generate(), generate(), generate(), generate()]]
-      puzzle.second = [[generate(), generate(), generate(), generate()], [generate(), generate(), generate(), generate()], [generate(), generate(), generate(), generate()], [generate(), generate(), generate(), generate()]]
+      puzzle.first = [[generate(), generate(), generate(), generate()], [generate(), generate(), generate(), generate()], [generate(), generate(), generate(), generate()], [generate(), generate(), generate(), generate()]]
+      puzzle.second = [[generate(), generate(), generate(), generate()], [generate(), generate(), generate(), generate()], [generate(), generate(), generate(), generate()], [generate(), generate(), generate(), generate()], [generate(), generate(), generate(), generate()]]
       puzzle.coord = generateCoordinates()
       break
+    case 1:
     default:
-      puzzle.first = [[generate()]]
-      puzzle.second = [[generate()]]
+      puzzle.first = [[generate(), generate()]]
+      puzzle.second = [[generate(), generate()]]
       puzzle.coord = generateCoordinates()
   }
 

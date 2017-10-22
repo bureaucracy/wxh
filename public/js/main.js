@@ -2,17 +2,16 @@
 
 var audioMod = require('./src/audio')
 var visualMod = require('./src/visual')
-var math = require('./src/math')
+var matrices = require('./src/matrices')
 
 var shop = document.querySelector('#shop')
 var canvas = document.querySelector('canvas')
-var debug = document.querySelector('#debug')
 
 visualMod.resize()
 audioMod.play()
 
 shop.onclick = function () {
-  visualMod.add(math.generatePuzzle())
+  visualMod.add(matrices.generatePuzzle())
   audioMod.startGame()
 }
 
@@ -60,24 +59,24 @@ function updateViz (pageX, pageY) {
   }
 }
 
-canvas.ontouchmove = canvas.ontouchstart = function (e) {
+var touchFunc
+
+canvas.ontouchstart = function (e) {
   e.preventDefault()
 
-  var pageX = 0
-  var pageY = 0
-
   if (e.touches) {
-    for (var i = 0; i < e.touches.length; i++) {
-      debug.textContent = e.touches[i].pageX + ', ' + e.touches[i].pageY
-      pageX = e.touches[i].pageX
-      pageY = e.touches[i].pageY
-      updateViz(pageX, pageY)
-    }
+    touchFunc = setInterval(function () {
+      updateViz(e.touches[0].pageX, e.touches[0].pageY)
+    }, 100)
   } else {
-    pageX = e.pageX
-    pageY = e.pageY
-    updateViz(pageX, pageY)
+    updateViz(e.pageX, e.pageY)
   }
+}
+
+canvas.ontouchend = function (e) {
+  e.preventDefault()
+
+  clearInterval(touchFunc)
 }
 
 window.requestAnimationFrame(visualMod.generateGradient)

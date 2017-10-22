@@ -16,6 +16,6 @@ module.exports = {
   currentGreen: 0.0,
   currentHorizontal: 0.5,
   colorNM: 789,
-  currentLevel: 4, // TODO: replace with 1
+  currentLevel: 1, // TODO: replace with 1
   currentIteration: 0
 }

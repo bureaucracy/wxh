@@ -1,7 +1,7 @@
 'use strict'
 
 var utils = require('./utils')
-var math = require('./math')
+var matrices = require('./matrices')
 var audio = require('./audio')
 
 var RGBState = false
@@ -225,7 +225,7 @@ function add (data) {
       currentAnswer += ans[i].innerText
     }
 
-    var answer = math.multiply(first, second)
+    var answer = matrices.multiply(first, second)
 
     var validAnswer = (answer === currentAnswer)
     var validCoord = (utils.currentHorizontal == coord.horiz && utils.currentFreq == coord.freq)

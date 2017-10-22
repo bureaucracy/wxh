@@ -179,7 +179,7 @@ canvas {
     background-size: 10vw;
     transform: rotate(0deg);
     opacity: 0.75;
-    left: 0;
+    left: -100vw;
   }
   to {
     background-size: 40vw;
@@ -269,9 +269,10 @@ canvas {
 }
 
 #solution {
-  position: absolute;
+  position: fixed;
   left: 10px;
   top: 100px;
+  max-height: 80vh;
   z-index: 6;
   padding: 10px;
   border-left: 10px solid rgba(240, 10, 250, 0.95);
@@ -280,6 +281,7 @@ canvas {
   opacity: 0.2;
   transition: 1s all;
   flex-wrap: wrap;
+  overflow: scroll;
 }
 
 #solution:hover {

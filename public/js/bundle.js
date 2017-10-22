@@ -3,17 +3,16 @@
 
 var audioMod = require('./src/audio')
 var visualMod = require('./src/visual')
-var math = require('./src/math')
+var matrices = require('./src/matrices')
 
 var shop = document.querySelector('#shop')
 var canvas = document.querySelector('canvas')
-var debug = document.querySelector('#debug')
 
 visualMod.resize()
 audioMod.play()
 
 shop.onclick = function () {
-  visualMod.add(math.generatePuzzle())
+  visualMod.add(matrices.generatePuzzle())
   audioMod.startGame()
 }
 
@@ -61,30 +60,30 @@ function updateViz (pageX, pageY) {
   }
 }
 
-canvas.ontouchmove = canvas.ontouchstart = function (e) {
+var touchFunc
+
+canvas.ontouchstart = function (e) {
   e.preventDefault()
 
-  var pageX = 0
-  var pageY = 0
-
   if (e.touches) {
-    for (var i = 0; i < e.touches.length; i++) {
-      debug.textContent = e.touches[i].pageX + ', ' + e.touches[i].pageY
-      pageX = e.touches[i].pageX
-      pageY = e.touches[i].pageY
-      updateViz(pageX, pageY)
-    }
+    touchFunc = setInterval(function () {
+      updateViz(e.touches[0].pageX, e.touches[0].pageY)
+    }, 100)
   } else {
-    pageX = e.pageX
-    pageY = e.pageY
-    updateViz(pageX, pageY)
+    updateViz(e.pageX, e.pageY)
   }
+}
+
+canvas.ontouchend = function (e) {
+  e.preventDefault()
+
+  clearInterval(touchFunc)
 }
 
 window.requestAnimationFrame(visualMod.generateGradient)
 
 
-},{"./src/audio":2,"./src/math":3,"./src/visual":5}],2:[function(require,module,exports){
+},{"./src/audio":2,"./src/matrices":3,"./src/visual":5}],2:[function(require,module,exports){
 'use strict'
 
 // audio
@@ -422,34 +421,30 @@ function generatePuzzle () {
   }
 
   switch (level) {
-    case 1:
-      puzzle.first = [[generate()]]
-      puzzle.second = [[generate()]]
-      puzzle.coord = generateCoordinates()
-      break
     case 2:
       puzzle.first = [[generate(), generate()]]
-      puzzle.second = [[generate(), generate()]]
+      puzzle.second = [[generate(), generate()], [generate(), generate()]]
       puzzle.coord = generateCoordinates()
       break
     case 3:
-      puzzle.first = [[generate(), generate(), generate()]]
+      puzzle.first = [[generate(), generate(), generate()], [generate(), generate(), generate()]]
       puzzle.second = [[generate(), generate(), generate()], [generate(), generate(), generate()]]
       puzzle.coord = generateCoordinates()
       break
     case 4:
-      puzzle.first = [[generate(), generate(), generate()], [generate(), generate(), generate()]]
+      puzzle.first = [[generate(), generate(), generate()], [generate(), generate(), generate()], [generate(), generate(), generate()]]
       puzzle.second = [[generate(), generate(), generate()], [generate(), generate(), generate()], [generate(), generate(), generate()], [generate(), generate(), generate()]]
       puzzle.coord = generateCoordinates()
       break
     case 5:
-      puzzle.first = [[generate(), generate(), generate(), generate()], [generate(), generate(), generate(), generate()], [generate(), generate(), generate(), generate()]]
-      puzzle.second = [[generate(), generate(), generate(), generate()], [generate(), generate(), generate(), generate()], [generate(), generate(), generate(), generate()], [generate(), generate(), generate(), generate()]]
+      puzzle.first = [[generate(), generate(), generate(), generate()], [generate(), generate(), generate(), generate()], [generate(), generate(), generate(), generate()], [generate(), generate(), generate(), generate()]]
+      puzzle.second = [[generate(), generate(), generate(), generate()], [generate(), generate(), generate(), generate()], [generate(), generate(), generate(), generate()], [generate(), generate(), generate(), generate()], [generate(), generate(), generate(), generate()]]
       puzzle.coord = generateCoordinates()
       break
+    case 1:
     default:
-      puzzle.first = [[generate()]]
-      puzzle.second = [[generate()]]
+      puzzle.first = [[generate(), generate()]]
+      puzzle.second = [[generate(), generate()]]
       puzzle.coord = generateCoordinates()
   }
 
@@ -508,7 +503,7 @@ module.exports = {
   currentGreen: 0.0,
   currentHorizontal: 0.5,
   colorNM: 789,
-  currentLevel: 4, // TODO: replace with 1
+  currentLevel: 1, // TODO: replace with 1
   currentIteration: 0
 }
 
@@ -516,7 +511,7 @@ module.exports = {
 'use strict'
 
 var utils = require('./utils')
-var math = require('./math')
+var matrices = require('./matrices')
 var audio = require('./audio')
 
 var RGBState = false
@@ -740,7 +735,7 @@ function add (data) {
       currentAnswer += ans[i].innerText
     }
 
-    var answer = math.multiply(first, second)
+    var answer = matrices.multiply(first, second)
 
     var validAnswer = (answer === currentAnswer)
     var validCoord = (utils.currentHorizontal == coord.horiz && utils.currentFreq == coord.freq)
@@ -810,4 +805,4 @@ module.exports = {
   switchBackground: switchBackground
 }
 
-},{"./audio":2,"./math":3,"./utils":4}]},{},[1]);
+},{"./audio":2,"./matrices":3,"./utils":4}]},{},[1]);

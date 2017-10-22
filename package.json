@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev": "npm run watch",
-    "build": "node_modules/.bin/browserify ./public/js/main.js | node_modules/.bin/uglifyjs ./public/js/bundle.js -o -m ./public/js/bundle.min.js",
+    "build": "node_modules/.bin/browserify ./public/js/main.js | node_modules/.bin/uglifyjs -m toplevel ./public/js/bundle.js -o ./public/js/bundle.min.js",
     "watch": "node_modules/.bin/watchify ./public/js/main.js -o ./public/js/bundle.js -v"
   },
   "dependencies": {
