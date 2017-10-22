@@ -76,7 +76,7 @@ canvas.ontouchstart = function (e) {
   if (e.touches) {
     touchFunc = setInterval(function () {
       updateViz(e.touches[0].pageX, e.touches[0].pageY)
-    }, 100)
+    }, 10)
   } else {
     updateViz(e.pageX, e.pageY)
   }
