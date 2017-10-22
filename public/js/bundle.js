@@ -772,10 +772,10 @@ function add (data) {
     }
     answerBox.appendChild(inputItem)
 
-    if ((i + 1) % 2 === 0 && (i < totalBoxes - 1)) {
+    if ((i + 1) % first[0].length === 0 && (i < totalBoxes - 1)) {
       var plus = document.createElement('div')
 
-      if ((i + 1) % first[0].length === 0) {
+      if ((i + 1) % first.length === 0) {
         plus.className = 'plus'
         plus.textContent = ','
       } else {
