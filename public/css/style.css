@@ -3,6 +3,7 @@ body {
   padding: 0;
   margin: 0;
   overflow: hidden;
+  font-family: 'Overpass Mono', monospace;
 }
 
 .face {
@@ -112,7 +113,7 @@ canvas {
   height: 90vw;
   border-radius: 100%;
   animation-name: move;
-  animation-duration: 20s;
+  animation-duration: 30s;
   animation-iteration-count: infinite;
   animation-direction: alternate;
   z-index: 4;
@@ -151,10 +152,10 @@ canvas {
 
 #shop {
   position: absolute;
-  left: 20%;
-  top: 30%;
-  width: 100px;
-  height: 100px;
+  left: 30%;
+  top: 80%;
+  width: 150px;
+  height: 150px;
   background-color: rgba(1, 220, 210, 0.9);
   border-radius: 100px;
   z-index: 5;
@@ -324,6 +325,7 @@ button:hover {
 
 #solution.error .ansvalue {
   background-color: #f00;
+  font-size: 1.5rem;
 }
 
 #solution.error button {
@@ -338,5 +340,11 @@ button:hover {
 
   #level {
     font-size: 1.4rem;
+  }
+
+  #shop {
+    top: 60%;
+    width: 80px;
+    height: 80px;
   }
 }

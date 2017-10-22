@@ -228,7 +228,8 @@ function add (data) {
     var answer = matrices.multiply(first, second)
 
     var validAnswer = (answer === currentAnswer)
-    var validCoord = (utils.currentHorizontal == coord.horiz && utils.currentFreq == coord.freq)
+    var validCoord = (utils.currentHorizontal == coord.horiz &&
+                      utils.currentFreq == coord.freq)
 
     if (!validAnswer || !validCoord) {
       answerBox.classList.add('error')
@@ -260,7 +261,7 @@ function add (data) {
   var p1 = document.createElement('p')
   var p2 = document.createElement('p')
 
-  h2.textContent = coord.freq + ' / ' + coord.horiz
+  h2.textContent = 'freq: ' + coord.freq + ' / horiz: ' + coord.horiz
 
   first.map(function (f) {
     var row = document.createElement('div')

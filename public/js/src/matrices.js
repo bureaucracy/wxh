@@ -4,7 +4,7 @@ var utils = require('./utils')
 
 function generatePuzzle () {
   var puzzle = {
-    all: ['⦿', '⊞', '⊛', '⊔', '⊿', '⋇', '⋈', '⌖', '☆']
+    all: ['⦿', '⊞', '⋓', '⋒', '⌽', '△', '○', '⊔', '⊿', '⋊', '⋈', '⋉', '☆']
   }
 
   var level = utils.currentLevel
