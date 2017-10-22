@@ -356,9 +356,6 @@ function startGame () {
   var gainNode = audioCtx.createGain()
   gainNode.connect(audioCtx.destination)
   gainNode.gain.value = 0.3
-  var delayNode = audioCtx.createDelay()
-  delayNode.delayTime.value = 0.2
-  delayNode.connect(gainNode)
 
   oscillator.type = 'sine'
   oscillator.frequency.value = 215 // value in hertz
@@ -675,12 +672,37 @@ function generateGradient () {
     b = 0
   }
 
+  function randomize (high, low) {
+    return Math.floor(Math.random() * (high - low + 1)) + low
+  }
+
   var gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height)
   gradient.addColorStop(percentage, lastRGB)
   gradient.addColorStop(percentage2, 'rgba(' + r + ',' + g + ',' + b + ', ' + percentage + ')')
   ctx.globalAlpha = percentage
   ctx.fillStyle = gradient
   ctx.fillRect(0, 0, canvas.width, canvas.height)
+
+  ctx.beginPath()
+  ctx.moveTo(randomize(10, 570), randomize(20, 280))
+  ctx.bezierCurveTo(randomize(20, 130), randomize(10, 200), randomize(10, 130), randomize(0, 150), 230, 150)
+  ctx.bezierCurveTo(250, randomize(10, 180), randomize(10, 320), 180, randomize(300, 540), randomize(0, 150))
+  ctx.bezierCurveTo(randomize(10, 420), 150, randomize(10, 420), 120, randomize(10, 420), 100)
+  ctx.bezierCurveTo(randomize(0, 430), 40, randomize(10, 370), 30, randomize(50, 340), randomize(50, 400))
+  ctx.bezierCurveTo(randomize(10, 320), randomize(0, 300), 250, 20, 250, 50)
+  ctx.bezierCurveTo(randomize(10, 200), 5, randomize(0, 150), 20, 170, 80)
+  ctx.closePath()
+  ctx.lineWidth = 5
+
+  if (utils.currentLevel == 1) {
+    ctx.fillStyle = 'rgba(5, ' + randomize(0, 200) + ', ' + randomize(150, 240) + ', 0.2)'
+  } else if (utils.currentLevel == 2) {
+    ctx.fillStyle = 'rgba(' + randomize(150, 240) + ', ' + randomize(0, 200) + ', 5, 0.2)'
+  } else if (utils.currentLevel == 3) {
+    ctx.fillStyle = 'rgba(' + randomize(150, 240) + ', 5, ' + randomize(150, 240) + ', 0.2)'
+  }
+
+  ctx.fill()
 
   window.requestAnimationFrame(generateGradient)
 }

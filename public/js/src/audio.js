@@ -262,9 +262,6 @@ function startGame () {
   var gainNode = audioCtx.createGain()
   gainNode.connect(audioCtx.destination)
   gainNode.gain.value = 0.3
-  var delayNode = audioCtx.createDelay()
-  delayNode.delayTime.value = 0.2
-  delayNode.connect(gainNode)
 
   oscillator.type = 'sine'
   oscillator.frequency.value = 215 // value in hertz
