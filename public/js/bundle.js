@@ -4,12 +4,16 @@
 var audioMod = require('./src/audio')
 var visualMod = require('./src/visual')
 var matrices = require('./src/matrices')
+var utils = require('./src/utils')
 
 var shop = document.querySelector('#shop')
 var canvas = document.querySelector('canvas')
+var stats = document.querySelector('#stats h3 span')
 
 visualMod.resize()
 audioMod.play()
+
+stats.textContent = utils.getInfo('triangles')
 
 shop.onclick = function () {
   visualMod.add(matrices.generatePuzzle())
@@ -42,6 +46,10 @@ window.onkeydown = function (e) {
   }
 
   visualMod.calculate()
+}
+
+window.onkeyup = window.ontouchend = function (e) {
+  utils.saveInfo()
 }
 
 function updateViz (pageX, pageY) {
@@ -83,7 +91,7 @@ canvas.ontouchend = function (e) {
 window.requestAnimationFrame(visualMod.generateGradient)
 
 
-},{"./src/audio":2,"./src/matrices":3,"./src/visual":5}],2:[function(require,module,exports){
+},{"./src/audio":2,"./src/matrices":3,"./src/utils":4,"./src/visual":5}],2:[function(require,module,exports){
 'use strict'
 
 // audio
@@ -491,21 +499,50 @@ var SPEED_OF_LIGHT = 300000000
 var NM_IN_METER = 1000000000
 var LOWEST_FREQ_HZ = 380000000000000
 var HIGHEST_FREQ_HZ = 799000000000000
+var MID_FREQ_HZ = (HIGHEST_FREQ_HZ + LOWEST_FREQ_HZ) / 2
+var localstorage = window.localStorage
 
-module.exports = {
+var utils = {
   SPEED_OF_LIGHT: SPEED_OF_LIGHT,
   NM_IN_METER: NM_IN_METER,
   LOWEST_FREQ_HZ: LOWEST_FREQ_HZ,
   HIGHEST_FREQ_HZ: HIGHEST_FREQ_HZ,
-  currentFreq: 380000000000000,
-  currentRed: 1.0,
-  currentBlue: 0.0,
-  currentGreen: 0.0,
-  currentHorizontal: 0.5,
-  colorNM: 789,
-  currentLevel: 1, // TODO: replace with 1
-  currentIteration: 0
+  MID_FREQ_HZ: MID_FREQ_HZ,
+  currentFreq: getInfo('currentFreq', MID_FREQ_HZ),
+  currentRed: getInfo('currentRed', 1.0),
+  currentBlue: getInfo('currentBlue', 0.0),
+  currentGreen: getInfo('currentGreen', 0.0),
+  currentHorizontal: getInfo('currentHorizontal', 0.5),
+  colorNM: getInfo('colorNM', 789),
+  currentLevel: getInfo('currentLevel', 1),
+  currentIteration: getInfo('currentIteration', 0),
+  triangles: getInfo('triangles', 0),
+  saveInfo: saveInfo,
+  getInfo: getInfo
 }
+
+function saveInfo () {
+  localstorage.setItem('currentFreq', utils.currentFreq)
+  localstorage.setItem('currentRed', utils.currentRed)
+  localstorage.setItem('currentBlue', utils.currentBlue)
+  localstorage.setItem('currentGreen', utils.currentGreen)
+  localstorage.setItem('currentHorizontal', utils.currentHorizontal)
+  localstorage.setItem('currentIteration', utils.currentIteration)
+  localstorage.setItem('triangles', utils.triangles)
+  localstorage.setItem('currentLevel', utils.currentLevel)
+}
+
+function getInfo (key, deflt) {
+  var item = localstorage.getItem(key)
+
+  if (item) {
+    return parseFloat(item)
+  }
+
+  return deflt
+}
+
+module.exports = utils
 
 },{}],5:[function(require,module,exports){
 'use strict'
@@ -530,9 +567,12 @@ var info = document.querySelector('#info')
 var currentFace = document.querySelector('#face2')
 var wrapper = document.querySelector('#wrapper')
 var levelStatus = document.querySelector('#level')
+var stats = document.querySelector('#stats h3 span')
 
 var symbols = []
 var currentSymbols = {}
+
+levelStatus.querySelector('span').textContent = utils.getInfo('currentLevel', 1)
 
 function calculate () {
   var wavelength = utils.currentFreq
@@ -704,6 +744,8 @@ function add (data) {
         currentSymbols['ans' + idx] = 0
       }
 
+      utils.saveInfo()
+
       audio.switchBlock()
     }
     answerBox.appendChild(inputItem)
@@ -761,7 +803,15 @@ function add (data) {
       if (utils.currentLevel > 5) {
         utils.currentLevel = 5
       }
+
+      utils.triangles += utils.currentLevel * 10
+
+      if (utils.triangles >= 999999) {
+        utils.triangles = 999999
+      }
       gameActive = false
+      stats.textContent = utils.triangles
+      utils.saveInfo()
     }
   }
 

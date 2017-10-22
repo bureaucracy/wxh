@@ -3,12 +3,16 @@
 var audioMod = require('./src/audio')
 var visualMod = require('./src/visual')
 var matrices = require('./src/matrices')
+var utils = require('./src/utils')
 
 var shop = document.querySelector('#shop')
 var canvas = document.querySelector('canvas')
+var stats = document.querySelector('#stats h3 span')
 
 visualMod.resize()
 audioMod.play()
+
+stats.textContent = utils.getInfo('triangles')
 
 shop.onclick = function () {
   visualMod.add(matrices.generatePuzzle())
@@ -41,6 +45,10 @@ window.onkeydown = function (e) {
   }
 
   visualMod.calculate()
+}
+
+window.onkeyup = window.ontouchend = function (e) {
+  utils.saveInfo()
 }
 
 function updateViz (pageX, pageY) {

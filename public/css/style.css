@@ -196,9 +196,9 @@ canvas {
   left: 10px;
   bottom: 10px;
   padding: 10px 20px;
-  font-size: 1.3rem;
+  font-size: 1.4rem;
   color: rgba(110, 160, 200, 0.9);
-  text-shadow: rgba(255, 255, 255, 0.7) 0 0 2px;
+  text-shadow: rgba(255, 255, 255, 0.2) 0 0 1px;
   font-family: monospace;
   white-space: nowrap;
   line-height: 1.4rem;
@@ -207,23 +207,36 @@ canvas {
 
 #info span {
   color: rgba(235, 10, 80, 0.8);
+  font-size: 1.3rem;
 }
 
 #info h3 {
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   margin: 5px 2px;
 }
 
-#level {
+#stats {
   position: fixed;
   top: 5px;
   right: 10px;
   z-index: 5;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+#level {
   font-size: 2rem;
   font-family: monospace;
   padding: 0;
   margin: 0;
-  color: rgba(255, 255, 255, 0.5);
+}
+
+#stats h3 {
+  padding: 0;
+  margin: 0;
+}
+
+#stats h3 span {
+  font-size: 2.2rem;
 }
 
 #puzzle {
@@ -325,7 +338,10 @@ button:hover {
 
 #solution.error .ansvalue {
   background-color: #f00;
-  font-size: 1.5rem;
+}
+
+.ansvalue {
+  font-size: 40px;
 }
 
 #solution.error button {

@@ -20,9 +20,12 @@ var info = document.querySelector('#info')
 var currentFace = document.querySelector('#face2')
 var wrapper = document.querySelector('#wrapper')
 var levelStatus = document.querySelector('#level')
+var stats = document.querySelector('#stats h3 span')
 
 var symbols = []
 var currentSymbols = {}
+
+levelStatus.querySelector('span').textContent = utils.getInfo('currentLevel', 1)
 
 function calculate () {
   var wavelength = utils.currentFreq
@@ -194,6 +197,8 @@ function add (data) {
         currentSymbols['ans' + idx] = 0
       }
 
+      utils.saveInfo()
+
       audio.switchBlock()
     }
     answerBox.appendChild(inputItem)
@@ -251,7 +256,15 @@ function add (data) {
       if (utils.currentLevel > 5) {
         utils.currentLevel = 5
       }
+
+      utils.triangles += utils.currentLevel * 10
+
+      if (utils.triangles >= 999999) {
+        utils.triangles = 999999
+      }
       gameActive = false
+      stats.textContent = utils.triangles
+      utils.saveInfo()
     }
   }
 
