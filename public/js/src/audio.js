@@ -4,15 +4,13 @@
 var utils = require('./utils')
 
 var audioCtx = new (window.AudioContext || window.webkitAudioContext)()
+var audioCtx2 = new (window.AudioContext || window.webkitAudioContext)()
 
 function generateAudio (opts) {
   var oscillator = audioCtx.createOscillator()
   var gainNode = audioCtx.createGain()
-  var delayNode = audioCtx.createDelay()
   gainNode.gain.value = opts.gain
   gainNode.gain.linearRampToValueAtTime(0.0, 1500)
-  delayNode.delayTime.value = opts.delay
-  delayNode.connect(gainNode)
   gainNode.connect(audioCtx.destination)
   oscillator.type = opts.osc1[0]
   oscillator.frequency.value = opts.osc1[1] - (utils.colorNM - opts.osc1[2]) // value in hertz
@@ -41,6 +39,8 @@ function generateAudio (opts) {
     oscillator.stop()
     oscillator2.stop()
     oscillator3.stop()
+    gainNode.disconnect(audioCtx.destination)
+    gainNode = null
   }, opts.timeout)
 }
 
@@ -52,7 +52,6 @@ function up () {
 
   generateAudio({
     gain: 0.01,
-    delay: 0.5,
     osc1: ['sine', 380, 310],
     osc2: ['sine', 410, 390],
     osc3: ['sawtooth', 430, 410],
@@ -68,7 +67,6 @@ function down () {
 
   generateAudio({
     gain: 0.01,
-    delay: 0.15,
     osc1: ['sine', 400, 310],
     osc2: ['sine', 430, 400],
     osc3: ['sawtooth', 430, 410],
@@ -91,13 +89,12 @@ function left () {
   if (utils.currentRed > 0.9) {
     utils.currentRed = 1.0
   }
-  if (utils.currentHorizontal > 0.9) {
+  if (utils.currentHorizontal > 0.999) {
     utils.currentHorizontal = 1.0
   }
 
   generateAudio({
     gain: 0.02,
-    delay: 0.35,
     osc1: ['triangle', 200, 410],
     osc2: ['sine', 430, 400],
     osc3: ['triangle', 420, 400],
@@ -126,7 +123,6 @@ function right () {
 
   generateAudio({
     gain: 0.02,
-    delay: 0.75,
     osc1: ['triangle', 200, 370],
     osc2: ['sine', 430, 400],
     osc3: ['triangle', 420, 360],
@@ -136,40 +132,38 @@ function right () {
 
 function play () {
   // create Oscillator node
-  var oscillator = audioCtx.createOscillator()
-  var gainNode = audioCtx.createGain()
-  gainNode.connect(audioCtx.destination)
+  var oscillator = audioCtx2.createOscillator()
+  var gainNode = audioCtx2.createGain()
+  gainNode.connect(audioCtx2.destination)
   gainNode.gain.value = 0.3
-  var delayNode = audioCtx.createDelay()
-  delayNode.delayTime.value = 0.5
-  delayNode.connect(gainNode)
-  gainNode.connect(audioCtx.destination)
 
   oscillator.type = 'sine'
   oscillator.frequency.value = 60 // value in hertz
   oscillator.connect(gainNode)
   oscillator.start()
 
-  var oscillator2 = audioCtx.createOscillator()
+  var oscillator2 = audioCtx2.createOscillator()
 
   oscillator2.type = 'triangle'
   oscillator2.frequency.value = 80 // value in hertz
   oscillator2.connect(gainNode)
   oscillator2.start()
 
-  var oscillator3 = audioCtx.createOscillator()
+  var oscillator3 = audioCtx2.createOscillator()
 
   oscillator3.type = 'sine'
   oscillator3.frequency.value = 80 // value in hertz
   oscillator3.connect(gainNode)
   oscillator3.start()
 
-  gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.80)
+  gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx2.currentTime + 0.80)
 
   setTimeout(function () {
     oscillator.stop()
     oscillator2.stop()
     oscillator3.stop()
+    gainNode.disconnect(audioCtx2.destination)
+    gainNode = null
   }, 850)
 }
 
@@ -178,10 +172,6 @@ function switchBlock () {
   var gainNode = audioCtx.createGain()
   gainNode.connect(audioCtx.destination)
   gainNode.gain.value = 0.2
-  var delayNode = audioCtx.createDelay()
-  delayNode.delayTime.value = 0.5
-  delayNode.connect(gainNode)
-  gainNode.connect(audioCtx.destination)
 
   oscillator.type = 'sine'
   oscillator.frequency.value = 180 // value in hertz
@@ -200,6 +190,8 @@ function switchBlock () {
   setTimeout(function () {
     oscillator.stop()
     oscillator2.stop()
+    gainNode.disconnect(audioCtx.destination)
+    gainNode = null
   }, 1000)
 }
 
@@ -208,10 +200,6 @@ function solveError () {
   var gainNode = audioCtx.createGain()
   gainNode.connect(audioCtx.destination)
   gainNode.gain.value = 0.2
-  var delayNode = audioCtx.createDelay()
-  delayNode.delayTime.value = 0.5
-  delayNode.connect(gainNode)
-  gainNode.connect(audioCtx.destination)
 
   oscillator.type = 'sawtooth'
   oscillator.frequency.value = 100 // value in hertz
@@ -228,6 +216,8 @@ function solveError () {
   setTimeout(function () {
     oscillator.stop()
     oscillator2.stop()
+    gainNode.disconnect(audioCtx.destination)
+    gainNode = null
   }, 300)
 }
 
@@ -236,10 +226,6 @@ function solveCorrect () {
   var gainNode = audioCtx.createGain()
   gainNode.connect(audioCtx.destination)
   gainNode.gain.value = 0.4
-  var delayNode = audioCtx.createDelay()
-  delayNode.delayTime.value = 0.2
-  delayNode.connect(gainNode)
-  gainNode.connect(audioCtx.destination)
 
   oscillator.type = 'sine'
   oscillator.frequency.value = 195 // value in hertz
@@ -266,6 +252,8 @@ function solveCorrect () {
     oscillator.stop()
     oscillator2.stop()
     oscillator3.stop()
+    gainNode.disconnect(audioCtx.destination)
+    gainNode = null
   }, 2500)
 }
 
@@ -277,7 +265,6 @@ function startGame () {
   var delayNode = audioCtx.createDelay()
   delayNode.delayTime.value = 0.2
   delayNode.connect(gainNode)
-  gainNode.connect(audioCtx.destination)
 
   oscillator.type = 'sine'
   oscillator.frequency.value = 215 // value in hertz
@@ -304,6 +291,8 @@ function startGame () {
     oscillator.stop()
     oscillator2.stop()
     oscillator3.stop()
+    gainNode.disconnect(audioCtx.destination)
+    gainNode = null
   }, 2500)
 }
 

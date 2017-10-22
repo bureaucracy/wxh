@@ -82,7 +82,7 @@ function multiply (first, second) {
       subMatrix = []
     })
   })
-  console.log('new matrix', newMatrix.join(''))
+
   return newMatrix.join('')
 }
 

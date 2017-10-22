@@ -200,8 +200,14 @@ function add (data) {
 
     if ((i + 1) % 2 === 0 && (i < totalBoxes - 1)) {
       var plus = document.createElement('div')
-      plus.className = 'plus'
-      plus.textContent = '+'
+
+      if ((i + 1) % first[0].length === 0) {
+        plus.className = 'plus'
+        plus.textContent = ','
+      } else {
+        plus.className = 'plus'
+        plus.textContent = '+'
+      }
       answerBox.appendChild(plus)
     }
   }

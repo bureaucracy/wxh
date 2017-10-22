@@ -226,35 +226,25 @@ canvas {
 }
 
 #puzzle {
+  background: linear-gradient(
+    90deg,
+    rgba(214, 30, 130, 0.5) 10%,
+    rgba(235, 8, 205, 0.3) 30%,
+    rgba(14, 111, 250, 0.2) 50%);
   position: fixed;
   z-index: 3;
-  top: 10vh;
+  bottom: 100px;
   color: rgb(240, 3, 60);
-  font-size: 2.6rem;
+  font-size: 2.4rem;
   font-weight: bold;
   line-height: 2.5rem;
-  width: 320px;
-  display: flex;
-  animation-name: swim;
-  animation-duration: 10s;
-  animation-iteration-count: infinite;
-  animation-direction: alternate;
-}
-
-@keyframes swim {
-  from {
-    opacity: 1.0;
-    left: 0;
-  }
-  to {
-    opacity: 0.1;
-    left: 50vw;
-  }
+  width: 100%;
 }
 
 #puzzle h2 {
-  font-size: 1.2rem;
+  font-size: 1.7rem;
   line-height: 1.3rem;
+  padding: 0 10px;
   width: 100%;
   flex-wrap: nowrap;
   font-family: monospace;
@@ -264,6 +254,13 @@ canvas {
   text-align: center;
   border: 1px solid rgba(10, 200, 250, 0.8);
   margin: 10px;
+  display: flex;
+  flex-wrap: nowrap;
+  float: left;
+}
+
+#puzzle p div {
+  align-self: flex-start;
 }
 
 .row {
@@ -272,16 +269,17 @@ canvas {
 }
 
 #solution {
-  position: fixed;
+  position: absolute;
   left: 10px;
-  bottom: 110px;
-  z-index: 5;
+  top: 100px;
+  z-index: 6;
   padding: 10px;
-  border-left: 10px solid rgba(10, 200, 250, 0.95);
-  border-right: 10px solid rgba(10, 200, 250, 0.95);
+  border-left: 10px solid rgba(240, 10, 250, 0.95);
+  border-right: 10px solid rgba(240, 10, 250, 0.95);
   display: flex;
-  opacity: 0.3;
+  opacity: 0.2;
   transition: 1s all;
+  flex-wrap: wrap;
 }
 
 #solution:hover {
@@ -290,11 +288,11 @@ canvas {
 }
 
 .ansvalue, .plus {
-  width: 2.7rem;
+  width: 2.5rem;
   height: 2.5rem;
   background-color: rgba(5, 200, 240, 0.8);
   color: #fff;
-  margin: 1px 3px;
+  margin: 1px;
   font-size: 2.5rem;
   line-height: 2.5rem;
   text-align: center;
@@ -303,7 +301,7 @@ canvas {
 
 .plus {
   background-color: transparent;
-  color: #00f;
+  color: rgba(255, 2, 200, 0.8);
 }
 
 button {
@@ -311,11 +309,11 @@ button {
   background-color: #ddd;
   color: #fff;
   text-shadow: rgb(150, 250, 100) 0 0 10px;
-  font-size: 2rem;
+  font-size: 1.9rem;
   line-height: 1rem;
-  width: 2.7rem;
+  width: 2.5rem;
   height: 2.5rem;
-  margin: 1px 3px;
+  margin: 1px;
 }
 
 button:hover {
